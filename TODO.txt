@@ -1,6 +1,4 @@
 Add to py program:
-- import of the CSV
-- shuffle of the rows
 - (config file ?)
 - Bayesian Network model
 - how to create CPT
