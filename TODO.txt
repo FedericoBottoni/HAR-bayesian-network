@@ -1,4 +1,5 @@
 Add to py program:
+- calculate the vector's module
 - (config file ?)
 - Bayesian Network model
 - how to create CPT
@@ -7,3 +8,7 @@ Stimate
 - dependencies (different models)
 - discrete data
 - pipeline of the program
+
+Models 
+- no dependencies
+- 132 cases with Paerson's correlation index 

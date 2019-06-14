@@ -1,12 +1,13 @@
 import libpgm as lp
 import pandas as pd
 import csv
+from Config import Config
 from random import shuffle
 
 def dsShuffle():
     data=list()
 
-    with open('../data/Dataset.csv', mode='r', newline="\r\n", encoding="utf-8") as csv_file:
+    with open('data/Dataset.csv', mode='r', newline="\r\n", encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';', quotechar='"', lineterminator='\r\n')
         for row in csv_reader:
                 data.append(row)
@@ -16,7 +17,11 @@ def dsShuffle():
     shuffle(data)
     data=header+data
 
-    with open('../data/Shuffled.csv', mode='w+', newline="\n", encoding="utf-8") as csv_file:
+    with open('data/Shuffled.csv', mode='w+', newline="\n", encoding="utf-8") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=';', quotechar='"', lineterminator='\r\n', quoting=csv.QUOTE_MINIMAL)
         for row in data:
             csv_writer.writerow(row) 
+
+    a = Config()
+    print(a.getRangeSize())
+    
