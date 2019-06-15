@@ -1,10 +1,11 @@
-import libpgm as lp
 import pandas as pd
 import csv
-from Config import Config
 from random import shuffle
+from pgmNetwork import pgmNetwork
+from Config import Config
 
 def dsShuffle():
+    print('LOG: Shuffling the dataset')
     data=list()
 
     with open('data/Dataset.csv', mode='r', newline="\r\n", encoding="utf-8") as csv_file:
@@ -22,7 +23,13 @@ def dsShuffle():
         for row in data:
             csv_writer.writerow(row) 
 
-    a = Config()
-    print(a.getRangeSize())
-    print(a.getNetwork())
+    print('LOG: Parsing data')
+    # parse data according to the library
+    parsedData = []
+
+    print('LOG: Discretizing the dataset')
+    config = Config()
+    # discretize data using range
+
+    pgmNetwork(parsedData)
     
