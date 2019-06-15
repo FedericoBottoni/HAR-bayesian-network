@@ -1,5 +1,4 @@
 Add to py program:
-- calculate the vector's module
 - (config file ?)
 - Bayesian Network model
 - how to create CPT
@@ -11,4 +10,4 @@ Stimate
 
 Models 
 - no dependencies
-- 132 cases with Paerson's correlation index 
+- 132 cases with Paerson's correlation index

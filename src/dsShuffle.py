@@ -24,4 +24,5 @@ def dsShuffle():
 
     a = Config()
     print(a.getRangeSize())
+    print(a.getNetwork())
     
