@@ -14,3 +14,4 @@ Models
 
 Relation
 - row 122078: there is a date instead of a number
+- Memoryerror 1000 rows with the entire network

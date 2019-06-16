@@ -2,7 +2,7 @@ from BasicConfig import BasicConfig
 
 class Config(BasicConfig):
     def getRangeSize(self):
-        return 5
+        return 50
 
     def getNetwork(self):
         network = super().basicUserNetwork() # basicUserNetwork || basicTallNetwork

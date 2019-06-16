@@ -1,9 +1,10 @@
 import pandas as pd
 from pgmpy.models import BayesianModel
 from pgmpy.estimators import BayesianEstimator
+#from pgmpy.inference import VariableElimination
 from Config import Config
 
-def pgmNetwork(data):
+def pgmNetwork(data, test):
     config = Config()
     
     user = list() 
@@ -42,5 +43,7 @@ def pgmNetwork(data):
     print('LOG: Making the estimator')
     dfrm = pd.DataFrame(data={'user':user, 'howTallInMeters':howTallInMeters, 'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
     estimator = BayesianEstimator(model, dfrm)
-    #cpd_C = estimator.estimate_cpd('C', prior_type="dirichlet", pseudo_counts=[1, 2])
+    #cpd_C = estimator.estimate_cpd('class', prior_type="K2"  )
     #print(cpd_C)
+    #infer = VariableElimination(model)
+    #print(infer.query(['harClass'], evidence={}))

@@ -33,10 +33,16 @@ def dsShuffle():
         snapshots.append(Snapshot(row))
 
     parsedData = list()
+    test = list()
     print('LOG: Discretizing the dataset')
     config = Config()
+    line = 0
     for row in snapshots:
-        parsedData.append(row.getDiscretizedInstance(config.getRangeSize()))
+        line += 1
+        if line <= len(snapshots) * 0.75:
+            parsedData.append(row.getDiscretizedInstance(config.getRangeSize()))
+        else:
+            test.append(row.getDiscretizedInstance(config.getRangeSize()))
 
-    pgmNetwork(parsedData)
+    pgmNetwork(parsedData, test)
     
