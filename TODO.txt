@@ -11,3 +11,6 @@ Stimate
 Models 
 - no dependencies
 - 132 cases with Paerson's correlation index
+
+Relation
+- row 122078: there is a date instead of a number
