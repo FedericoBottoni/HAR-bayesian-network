@@ -1,7 +1,5 @@
 # HAR-bayesian-network
 
-python main.py
-
 ## Dependencies
 
 You can install pgmpy using [pip](https://pypi.org/project/pgmpy/):
@@ -32,8 +30,6 @@ python main.py
 
 - [github/FedericoBottoni](https://github.com/federicobottoni)
 
-## Copyright and License
-
-Copyright (c) 2016, Federico Bottoni.
+## License
 
 HAR-bayesian-network source code is licensed under the [MIT License](https://github.com/FedericoBottoni/HAR-bayesian-network/blob/master/LICENSE).

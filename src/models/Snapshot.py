@@ -5,11 +5,11 @@ from discretize import discretize
 class Snapshot():
     def __init__(self, splittedRow):
         self.user = splittedRow[0]
-        self.gender = splittedRow[1]
-        self.age = splittedRow[2]
-        self.how_tallInMeters = splittedRow[3]
-        self.weight = splittedRow[4]
-        self.bodyMassIndex = splittedRow[5]
+        #self.gender = splittedRow[1]
+        #self.age = splittedRow[2]
+        self.howTallInMeters = splittedRow[3]
+        #self.weight = splittedRow[4]
+        #self.bodyMassIndex = splittedRow[5]
         self.x1 = int(splittedRow[6])
         self.y1 = int(splittedRow[7])
         self.z1 = int(splittedRow[8])
