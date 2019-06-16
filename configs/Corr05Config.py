@@ -4,6 +4,7 @@ class Config(BasicConfig):
     def getRangeSize(self):
         return 2
 
+    # Network got by the Paerson's correlation index |val| >= 0.5
     def getNetwork(self):
         network = super().basicUserNetwork() # basicUserNetwork || basicTallNetwork
         network.extend([
