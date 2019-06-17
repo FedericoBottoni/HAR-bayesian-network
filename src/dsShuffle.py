@@ -5,7 +5,7 @@ from pgmNetwork import pgmNetwork
 from Snapshot import Snapshot
 from Config import Config
 
-def dsShuffle():
+def dsShuffle(libName):
     print('LOG: Shuffling the dataset')
     data=list()
 
@@ -43,6 +43,8 @@ def dsShuffle():
             parsedData.append(row.getDiscretizedInstance(config.getRangeSize()))
         else:
             test.append(row.getDiscretizedInstance(config.getRangeSize()))
-
-    pgmNetwork(parsedData, test)
+    if libName == 'pgm':
+        pgmNetwork(parsedData, test)
+    else:
+        pass
     

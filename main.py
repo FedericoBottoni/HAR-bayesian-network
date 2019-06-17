@@ -4,6 +4,12 @@ sys.path.append('src')
 sys.path.append('src\models')
 sys.path.append('src\shared')
 
-from dsShuffle import dsShuffle
+modes = ['pgm', 'pomegranate']
+def parseModName(mod):
+    if mod in modes:
+        return mod
+    else:
+        return modes[0]
 
-dsShuffle()
+from dsShuffle import dsShuffle
+dsShuffle(parseModName(sys.argv[1]) if len(sys.argv) > 1 else modes[0])
