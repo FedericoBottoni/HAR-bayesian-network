@@ -67,3 +67,4 @@ class Snapshot():
             classNumber = 3
         else:
             raise Exception()
+        return classNumber

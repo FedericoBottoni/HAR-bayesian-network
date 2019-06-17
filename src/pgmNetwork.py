@@ -51,10 +51,11 @@ def pgmNetwork(data, tests):
     #print(cpd_C)
     print('LOG: Stimate CPDs')
     model.fit(dfrm)
+    print('LOG: Variable Elimination')
     infer = VariableElimination(model)
     print('LOG: Queries')
     line = 0
     for test in tests:
         line += 1
         if line < 11:
-            print(infer.query(['class'], evidence={'how_tall_in_meters':test.howTallInMeters, 'x1':test.x1, 'y1':test.y1, 'z1':test.z1, 'x2':test.x2, 'y2':test.y2, 'z2':test.z2, 'x3':test.x3, 'y3':test.y3, 'z3':test.z3, 'x4':test.x4, 'y4':test.y4, 'z4':test.z4}))
+            print(infer.query(['class'], evidence={'how_tall_in_meters':test.howTallInMeters, 'x1':test.x1, 'y1':test.y1, 'z1':test.z1, 'x2':test.x2, 'y2':test.y2, 'z2':test.z2, 'x3':test.x3, 'y3':test.y3, 'z3':test.z3, 'x4':test.x4, 'y4':test.y4, 'z4':test.z4}), ['class'])
