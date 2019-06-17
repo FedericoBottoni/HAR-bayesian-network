@@ -4,15 +4,10 @@
 
 ## Dependencies
 
-You can install pgmpy using [pip](https://pypi.org/project/pgmpy/):
+You can install [pgmpy](https://pypi.org/project/pgmpy/) and [tqdm](https://pypi.org/project/tqdm/) using pip:
 
 ```bash
 pip install pgmpy
-```
-
-You can install pgmpy using [pip](https://pypi.org/project/tqdm/):
-
-```bash
 pip install tqdm
 ```
 
