@@ -26,6 +26,7 @@ class Snapshot():
 
     def getDiscretizedInstance(self, rng):
         discInstance = copy.copy(self)
+        discInstance.howTallInMeters = self.getDiscretizedHeight()
         discInstance.x1 = discretize(self.x1, rng)
         discInstance.y1 = discretize(self.y1, rng)
         discInstance.z1 = discretize(self.z1, rng)
@@ -38,4 +39,31 @@ class Snapshot():
         discInstance.x4 = discretize(self.x4, rng)
         discInstance.y4 = discretize(self.y4, rng)
         discInstance.z4 = discretize(self.z4, rng)
+        discInstance.harClass = self.getNumberClass()
         return discInstance
+
+    def getDiscretizedHeight(self):
+        height = float(self.howTallInMeters.replace(',', '.'))
+        if height <= 1.60:
+            discHeight = 1.60
+        elif height <= 1.65:
+            discHeight = 1.65
+        elif height <= 1.69:
+            discHeight = 1.69
+        else:
+            discHeight = 1.71
+        return discHeight
+
+    def getNumberClass(self):
+        if self.harClass == 'walking':
+            classNumber = 1
+        elif self.harClass == 'standing':
+            classNumber = 2
+        elif self.harClass == 'standingup':
+            classNumber = 3
+        elif self.harClass == 'sitting':
+            classNumber = 4
+        elif self.harClass == 'sittingdown':
+            classNumber = 3
+        else:
+            raise Exception()

@@ -10,6 +10,12 @@ You can install pgmpy using [pip](https://pypi.org/project/pgmpy/):
 pip install pgmpy
 ```
 
+You can install pgmpy using [pip](https://pypi.org/project/tqdm/):
+
+```bash
+pip install tqdm
+```
+
 ## Execute
 
 Execute the program from main.py
