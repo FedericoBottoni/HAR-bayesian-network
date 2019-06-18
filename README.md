@@ -11,12 +11,30 @@ pip install pgmpy
 pip install tqdm
 ```
 
-## Execute
+## Execution allowed
 
-Execute the program from main.py
+Generate the skeleton of the Bn
 
 ```bash
-python main.py
+python skeleton.py
+```
+
+Calculate the CPDs from the given skeleton
+
+```bash
+python cpds.py
+```
+
+Stimating the performance of the given model (skeleton + cpd)
+
+```bash
+python test.py
+```
+
+Make custom inference from the given model (skeleton + cpd)
+
+```bash
+python cpds.py
 ```
 
 ## Authors

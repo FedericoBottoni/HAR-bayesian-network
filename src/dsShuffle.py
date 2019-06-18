@@ -1,11 +1,12 @@
 import pandas as pd
 import csv
 from random import shuffle
-from pgmNetwork import pgmNetwork
+from range import range
+from pgmNetwork import testModel, generateCpds, generateSkeleton
 from Snapshot import Snapshot
 from Config import Config
 
-def dsShuffle(libName):
+def dsShuffle(mod):
     print('LOG: Shuffling the dataset')
     data=list()
 
@@ -32,19 +33,14 @@ def dsShuffle(libName):
     for row in data:
         snapshots.append(Snapshot(row))
 
-    parsedData = list()
-    test = list()
-    print('LOG: Discretizing the dataset')
-    config = Config()
-    line = 0
-    for row in snapshots:
-        line += 1
-        if line <= len(snapshots) * 0.75:
-            parsedData.append(row.getDiscretizedInstance(config.getRangeSize()))
-        else:
-            test.append(row.getDiscretizedInstance(config.getRangeSize()))
-    if libName == 'pgm':
-        pgmNetwork(parsedData, test)
-    else:
-        pass
-    
+    data = range(snapshots)
+    (data[0])
+    if mod == 'skeleton':
+        generateSkeleton(data[0])
+    elif mod == 'cpds':
+        generateCpds(data[0])
+    elif mod == 'test':
+        testModel(data[1])
+
+def makeInference(query):
+    raise Exception('Not implemented: parse the query and call testModel with a single snapshot')
