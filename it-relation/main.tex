@@ -73,11 +73,6 @@
 
 
 
-\section{Abstract}
-
-During the last 5 years, research on Human Activity Recognition (HAR)\cite{HAR} has reported on systems showing good overall recognition performance. As a consequence, HAR has been considered as a potential technology for e-health systems. Here, we propose a machine learning based HAR classifier\cite{Paper}. We also provide a full experimental description that contains the HAR wearable devices setup and a public domain dataset comprising 165,633 samples. We consider 5 activity classes, gathered from 4 subjects wearing accelerometers mounted on their waist, left thigh, right arm, and right ankle. As basic input features to our classifier we use 12 attributes derived from a time window of 150ms. Finally, the classifier uses a committee AdaBoost that combines ten Decision Trees. The observed classifier accuracy is 99.4%.
-
-
 \section{Introduzione}
 Il progetto ha l'obiettivo di creare un modello di Rete Bayesiana capace di predirre il tipo di azione che sta effettuando un ipotetico individuo che indossa il "HAR wearable devices setup", una particolare sistema indossabile composto da 4 accelerometri che permette di analizzare i vettori accelerazione dei sensori in questione. Viene fornito dal progetto di riferimento\cite{HAR} un dataset contenente dati sufficienti per effettuare training e testing del modello
 
@@ -101,6 +96,20 @@ La natura dei dati utilizzati è definita nel paper\cite{Paper} del progetto di 
 
 \section{Scelte di design}
 \subsection{Analisi statistica e qualitativa}
+
+\begin{figure}[H]
+	\centering
+	{\includegraphics[width=1\textwidth]{images/dataset.JPG}}
+	\caption{Dataset dopo lo shuffle}
+	\label{fig:dataset}
+
+\end{figure}
+\begin{figure}[H]
+	\centering
+	{\includegraphics[width=1\textwidth]{images/dataset_error.JPG}}
+	\caption{Errore in un entry del dataset}
+	\label{fig:datasetError}
+\end{figure}
 \subsection{Normalizzazione}
 \subsection{Discretizzazione}
 
@@ -110,6 +119,12 @@ Il software scelto è pgmpy\cite{pgmpy} di Python, una libreria che permette di 
 Utilizzando la libreria ci siamo resi conto di come sia performante utilizzando modelli semplici e correlati da pochi record, tuttavia appena è avvenuta l'esecuzione della stima delle CPT nel primo modello completo ideato abbiamo riscontrato le prime difficoltà: il modello decisamente complesso viene bloccato da Python date le eccessive combinazioni possibli. Abbiamo quindi tentato di semplificare la rete.
 
 \subsection{Il modello correlato}
+\begin{figure}[H]
+	\centering
+	{\includegraphics[width=1\textwidth]{images/corr05.JPG}}
+	\caption{Indice di correlazione di Paerson calcolato su tuttle le combinazioni di componenti}
+	\label{fig:corr}
+\end{figure}
 
 
 
