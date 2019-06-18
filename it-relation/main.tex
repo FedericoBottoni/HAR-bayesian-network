@@ -75,31 +75,46 @@
 
 \section{Abstract}
 
-During the last 5 years, research on Human Activity Recognition (HAR)\cite{site:HAR} has reported on systems showing good overall recognition performance. As a consequence, HAR has been considered as a potential technology for e-health systems. Here, we propose a machine learning based HAR classifier\cite{Paper}. We also provide a full experimental description that contains the HAR wearable devices setup and a public domain dataset comprising 165,633 samples. We consider 5 activity classes, gathered from 4 subjects wearing accelerometers mounted on their waist, left thigh, right arm, and right ankle. As basic input features to our classifier we use 12 attributes derived from a time window of 150ms. Finally, the classifier uses a committee AdaBoost that combines ten Decision Trees. The observed classifier accuracy is 99.4%.
+During the last 5 years, research on Human Activity Recognition (HAR)\cite{HAR} has reported on systems showing good overall recognition performance. As a consequence, HAR has been considered as a potential technology for e-health systems. Here, we propose a machine learning based HAR classifier\cite{Paper}. We also provide a full experimental description that contains the HAR wearable devices setup and a public domain dataset comprising 165,633 samples. We consider 5 activity classes, gathered from 4 subjects wearing accelerometers mounted on their waist, left thigh, right arm, and right ankle. As basic input features to our classifier we use 12 attributes derived from a time window of 150ms. Finally, the classifier uses a committee AdaBoost that combines ten Decision Trees. The observed classifier accuracy is 99.4%.
 
 
 \section{Introduzione}
-
-
+Il progetto ha l'obiettivo di creare un modello di Rete Bayesiana capace di predirre il tipo di azione che sta effettuando un ipotetico individuo che indossa il "HAR wearable devices setup", una particolare sistema indossabile composto da 4 accelerometri che permette di analizzare i vettori accelerazione dei sensori in questione. Viene fornito dal progetto di riferimento\cite{HAR} un dataset contenente dati sufficienti per effettuare training e testing del modello
 
 \subsection{Dominio di riferimento}
-
-
-\subsection{Obiettivi dell'elaborato}
-
+La natura dei dati utilizzati è definita nel paper\cite{Paper} del progetto di provenienza. La singola entry del dataset rappresenta uno snapshot acquisito dai sensori e consiste in:
+\begin{itemize}
+	\item user: stringa rappresentante l'username dell'individuo in oggetto
+	\item geneder: stringa relativa al suo genere
+	\item age: intero dell'età
+	\item how\_tall:in\_meters: decimale che esprime l'altezza
+	\item weight: intero riguardo al peso
+	\item body\_mass\_index: decimale rappresentante la distribuzione del peso
+	\item xi: intero che esprime la componente x del vettore accelerazione nel sensore i-esimo
+	\item yi: intero che esprime la componente y del vettore accelerazione nel sensore i-esimo
+	\item zi: intero che esprime la componente z del vettore accelerazione nel sensore i-esimo
+	\item class: stringa, il target del modello sviluppato: rappresenta l'azione/situazione dell'individuo al momento dello snapshot, può assumere il valore di "walking", "standing", "standingup", "sitting" e "sittingdown"
+\end{itemize}
 
 
 \subsection{Ipotesi e assunzioni}
 
+\section{Scelte di design}
+\subsection{Analisi statistica e qualitativa}
+\subsection{Normalizzazione}
+\subsection{Discretizzazione}
 
+\section{I modelli di rete}
+\subsection{pgmpy}
+Il software scelto è pgmpy\cite{pgmpy} di Python, una libreria che permette di modellare le dipendenze in modo agile, stimare le CPT delle variabili sfruttando dei metodi che accettano il dataset ed effettuare inferenze dichiarando la variabile di query e le evidenze. \linebreak
+Utilizzando la libreria ci siamo resi conto di come sia performante utilizzando modelli semplici e correlati da pochi record, tuttavia appena è avvenuta l'esecuzione della stima delle CPT nel primo modello completo ideato abbiamo riscontrato le prime difficoltà: il modello decisamente complesso viene bloccato da Python date le eccessive combinazioni possibli. Abbiamo quindi tentato di semplificare la rete.
 
+\subsection{Il modello correlato}
 
 
 
 \clearpage
-\section{Conclusioni}
-
-AAAA
+\section{Risultati e conclusioni}
 
 \newpage
 \bibliographystyle{plain}
