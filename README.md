@@ -4,11 +4,12 @@
 
 ## Dependencies
 
-You can install [pgmpy](https://pypi.org/project/pgmpy/) and [tqdm](https://pypi.org/project/tqdm/) using pip:
+You can install [pgmpy](https://pypi.org/project/pgmpy/), [tqdm](https://pypi.org/project/tqdm/) and [sklearn]https://pypi.org/project/sklearn/ using pip:
 
 ```bash
 pip install pgmpy
 pip install tqdm
+pip install sklearn
 ```
 
 ## Execution allowed

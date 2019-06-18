@@ -1,25 +1,19 @@
 import pandas as pd
 import csv
 from random import shuffle
-from range import range
+from process import normalizeDataset, encodeClass
 from pgmNetwork import testModel, generateCpds, generateSkeleton
 from Snapshot import Snapshot
 from Config import Config
 
 def dsShuffle(mod):
-    print('LOG: Shuffling the dataset')
+    config = Config()
+
+    print('LOG: Preprocessing data')
     data=list()
-
-    with open('data/FixedDataset.csv', mode='r', newline="\r\n", encoding="utf-8") as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=';', quotechar='"', lineterminator='\r\n')
-        firstLine = True
-        for row in csv_reader:
-            if not firstLine:
-                data.append(row)
-            else:
-                head = row
-                firstLine = False
-
+    with open('data/FixedDataset.csv') as csv_file:
+        csv_reader = csv.DictReader(csv_file, delimiter=';')
+        data = normalizeDataset(csv_reader)
     shuffle(data)
 
     #with open('data/Shuffled.csv', mode='w+', newline="\n", encoding="utf-8") as csv_file:
@@ -27,20 +21,20 @@ def dsShuffle(mod):
     #    csv_writer.writerow(head) 
     #    for row in data:
     #        csv_writer.writerow(row) 
-
-    print('LOG: Parsing data')
+    
     snapshots = list()
+    line = 0
     for row in data:
-        snapshots.append(Snapshot(row))
+        if line < len(data) * config.percGetData():
+            snapshots.append(Snapshot(row))
+        line += 1
 
-    data = range(snapshots)
-    (data[0])
     if mod == 'skeleton':
-        generateSkeleton(data[0])
+        generateSkeleton(snapshots)
     elif mod == 'cpds':
-        generateCpds(data[0])
+        generateCpds(snapshots)
     elif mod == 'test':
-        testModel(data[1])
+        testModel(snapshots)
 
 def makeInference(query):
     raise Exception('Not implemented: parse the query and call testModel with a single snapshot')
