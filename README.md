@@ -4,7 +4,7 @@
 
 ## Dependencies
 
-You can install [pgmpy](https://pypi.org/project/pgmpy/), [tqdm](https://pypi.org/project/tqdm/) and [sklearn]https://pypi.org/project/sklearn/ using pip:
+You can install [pgmpy](https://pypi.org/project/pgmpy/), [tqdm](https://pypi.org/project/tqdm/) and [sklearn](https://pypi.org/project/sklearn/) using pip:
 
 ```bash
 pip install pgmpy
@@ -35,7 +35,7 @@ python test.py
 Make custom inference from the given model (skeleton + cpd)
 
 ```bash
-python cpds.py
+python inference.py
 ```
 
 ## Authors

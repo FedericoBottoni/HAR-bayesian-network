@@ -82,7 +82,7 @@ La natura dei dati utilizzati è definita nel paper\cite{Paper} del progetto di 
 	\item user: stringa rappresentante l'username dell'individuo in oggetto
 	\item geneder: stringa relativa al suo genere
 	\item age: intero dell'età
-	\item how\_tall:in\_meters: decimale che esprime l'altezza
+	\item how\_tall\_in\_meters: decimale che esprime l'altezza
 	\item weight: intero riguardo al peso
 	\item body\_mass\_index: decimale rappresentante la distribuzione del peso
 	\item xi: intero che esprime la componente x del vettore accelerazione nel sensore i-esimo
@@ -93,23 +93,46 @@ La natura dei dati utilizzati è definita nel paper\cite{Paper} del progetto di 
 
 
 \subsection{Ipotesi e assunzioni}
+Durante lo studio del caso sono state discrimate le features utili al training della rete (i vettori dei sensori) da quelle assunte come superflue (user, gender, age, weight, body\_mass\_index) le quali potrebbero essere utilizzate per specializzarla ulteriormente.\newline
+La scelta riguardo all'attributo \emph{how\_tall\_in\_meters} non è stata particolarmente immediata dato che il training set considera un range di 13cm (1.58m - 1.71m) che distribuiti in un corpo umano non crea l'informazione necessaria per poter affermare che tutti i sensori si trovano 13cm più o meno vicini al terreno. La rete dovrebbe essere comunque in grado di predirre le azioni di un bambino, il quale ha altezza decisamente inferiore rispetto a quella precedentemente descritta, perciò [...] TODO [...] 
 
 \section{Scelte di design}
 \subsection{Analisi statistica e qualitativa}
-
 \begin{figure}[H]
 	\centering
 	{\includegraphics[width=1\textwidth]{images/dataset.JPG}}
 	\caption{Dataset dopo lo shuffle}
 	\label{fig:dataset}
+\end{figure}
+Il dataset si presenta come in figura \ref{fig:dataset} dopo una prima fase di pulizia, in cui sono stati individuati alcuni caratteri non necessari tra i campi e timestamp inaspettati tra le entry della tabella, ed una seconda di shuffle, nella quale i record sono stati randomizzati.\newline
+E' stata effettuata inoltre una fase di analisi statistico-descrittiva considerando le features che assumono valori in range indefiniti per cercare di individuare qualche distribuzione particolare o comportamento anomalo.
 
-\end{figure}
-\begin{figure}[H]
-	\centering
-	{\includegraphics[width=1\textwidth]{images/dataset_error.JPG}}
-	\caption{Errore in un entry del dataset}
-	\label{fig:datasetError}
-\end{figure}
+
+\begin{table}[h]
+	\caption{Analisi descrittiva del dataset}\label{tab:analytics}
+	\begin{tabular}{|l|l|l|l|l|l|}
+		\hline
+		Campo & Min & Max & Media & Moda & DevStd \\
+		\hline
+		x1 & -306 & 509 & -6.649327127 & -1 & 11.61623803 \\
+		y1 & -271 & 533 & 88.29366732 & 95 & 23.89582898 \\
+		z1 & -603 & 411 & -93.16461092 & -98 & 39.40942342 \\
+		x2 & -494 & 473 & -87.82750418 & -492 & 169.4351938 \\
+		y2 & -517 & 295 & -52.06504742 & -516 & 205.1597632 \\
+		z2 & -617 & 122 & -175.0552004 & -616 & 192.8166147 \\
+		x3 & -499 & 507 & 17.42351464 & 38 & 52.63538753 \\
+		y3 & -506 & 517 & 104.5171675 & 108 & 54.15584251 \\
+		z3 & -613 & 410 & -93.88172647 & -102 & 45.38964613 \\
+		x4 & -702 & -13 & -167.6414483 & -164 & 38.31134199 \\
+		y4 & -526 & 86 & -92.62517131 & -94 & 19.96861022 \\
+		z4 & -537 & -43 & 88.29366732 & -162 & 13.22102006 \\
+		
+		\hline
+	\end{tabular}
+\end{table}
+
+Dalla tabella \ref{tab:analytics} si può notare che i range di variabilità degli attributi non seguono comportamenti particolari, tanto meno le distribuzioni che in alcuni casi sono caratterizzati da deviazione standard particolarmente bassa (come il caso di \emph{x1}) mentre in altri casi molto alta (come \emph{y2}).
+
 \subsection{Normalizzazione}
 \subsection{Discretizzazione}
 
