@@ -23,9 +23,12 @@ def normalizeDataset(csv_reader):
         data[i, 11] = sample['z4']
         notProcessed.append(encodeClass(sample['class']))
         i = i + 1
-    normalize(data, norm = 'l2', axis = 1, copy = False, return_norm = False)
-    est = KBinsDiscretizer(n_bins = 5, encode='ordinal').fit(data)
-    data_discretized = est.transform(data)
+    #indaga su axis: sulla doc dicono che 0 normalizza per features su so dicono che sia 1....
+    data_tmp = preprocessing.normalize(data[:, [0,1,2,3,4,5,6,7,8,9,10,11]], norm = 'l2', axis = 0, return_norm = False)
+    est = preprocessing.KBinsDiscretizer(n_bins = 3, encode='ordinal').fit(data_tmp)
+    data_discretize = est.transform(data_tmp)
+    data = np.concatenate((data_discretize, data[:, [12]]), axis = 1)
+    #Ora è data a contenere tutte le colonne discretizzate meno l'ultima, quindi sotto devo modificare.
     i = 0
     for npElem in notProcessed:
         data_discretized[i, 12] = npElem
