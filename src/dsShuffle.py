@@ -1,6 +1,5 @@
 import pandas as pd
 import csv
-from random import shuffle
 from process import normalizeDataset, encodeClass
 from pgmNetwork import testModel, generateCpds, generateSkeleton
 from Snapshot import Snapshot
@@ -14,7 +13,6 @@ def dsShuffle(mod):
     with open('data/FixedDataset.csv') as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=';')
         data = normalizeDataset(csv_reader)
-    shuffle(data)
 
     #with open('data/Shuffled.csv', mode='w+', newline="\n", encoding="utf-8") as csv_file:
     #    csv_writer = csv.writer(csv_file, delimiter=';', quotechar='"', lineterminator='\r\n', quoting=csv.QUOTE_MINIMAL)

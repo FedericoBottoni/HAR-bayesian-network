@@ -7,7 +7,7 @@ from pgmpy.inference import VariableElimination
 from Config import Config
 from ConfigBn import ConfigBn
 
-def testModel(query):
+def testModel(tests):
     config = ConfigBn()
     
     print('LOG: Making the network')
@@ -71,7 +71,10 @@ def generateCpds(data):
     dfrm = pd.DataFrame(data={'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
     estimator = BayesianEstimator(model, dfrm)
     cpd_C = MaximumLikelihoodEstimator(model, dfrm).estimate_cpd('class')
-    print(cpd_C.values)
+    print(cpd_C.get_values())
+    f=open('lucafoppa.txt', "w+")
+    f.write(str(cpd_C.get_values()))
+    f.close()
 
 def generateSkeleton(data):
     x1 = list() 
