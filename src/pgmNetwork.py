@@ -22,7 +22,7 @@ def testModel(tests):
         for test in tests:
             line += 1
             if line < 11: 
-                print(test.toDiscretizedString(config.getRangeSize()))
+                print(test.toString(config.getRangeSize()))
                 q = infer.query(['class'], evidence={'x1':test.x1, 'y1':test.y1, 'z1':test.z1, 'x2':test.x2, 'y2':test.y2, 'z2':test.z2, 'x3':test.x3, 'y3':test.y3, 'z3':test.z3, 'x4':test.x4, 'y4':test.y4, 'z4':test.z4})
                 maxPhi = np.argmax(q.values)
                 if maxPhi == test.harClass:
