@@ -8,11 +8,13 @@ from Config import Config
 from ConfigBn import ConfigBn
 
 def testModel(tests):
-    config = ConfigBn()
+    bnet = ConfigBn()
     
     print('LOG: Making the network')
-    model = BayesianModel(config.getNetwork())
-    cpd_class = TabularCPD('class', 5, config.getCpd()) # Possiblity to add entries evidence=['diff', 'intel'], evidence_card=[2,3])
+    model = BayesianModel(bnet.getNetwork())
+    cpds = []
+    cpds.extend(TabularCPD('class', 5, bnet.getCpd(), evidence=['x1', 'x3', 'y4', 'z1', 'z2', 'z3', 'z4'], evidence_card=[3, 3, 3, 3, 3, 3, 3]))
+    model.add_cpds(cpds)
     print('LOG: Variable Elimination')
     infer = VariableElimination(model)
     if isinstance(query, list):
@@ -33,7 +35,8 @@ def testModel(tests):
         print(maxPhi)
 
 def generateCpds(data):
-    config = ConfigBn()
+    bnet = ConfigBn()
+    config = Config()
     
     x1 = list() 
     y1 = list() 
@@ -63,15 +66,16 @@ def generateCpds(data):
         z4.append(row.z4)
         harClass.append(row.harClass)
     print('LOG: Making the network')
-    model = BayesianModel(config.getNetwork())
+    model = BayesianModel(bnet.getNetwork())
     print('LOG: Stimate CPDs')
     dfrm = pd.DataFrame(data={'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
     estimator = BayesianEstimator(model, dfrm)
-    cpd_C = MaximumLikelihoodEstimator(model, dfrm).estimate_cpd('class')
-    print('LOG: CPD wrote in "output/generatedCPD.txt"')
-    f=open('output/generatedCPD.txt', "w+")
-    f.write(str(cpd_C.get_values()))
-    f.close()
+    for varName in config.variables():
+        cpd_C = MaximumLikelihoodEstimator(model, dfrm).estimate_cpd(varName)
+        print('LOG: CPD wrote in "generatedCPDs/' + varName + '.txt"')
+        f=open('generatedCPDs/' + varName + '.txt', "w+")
+        f.write(str(cpd_C.get_values()))
+        f.close()
 
 def generateSkeleton(data):
     x1 = list() 

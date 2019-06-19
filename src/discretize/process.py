@@ -1,10 +1,12 @@
 from sklearn.preprocessing import normalize
 from sklearn.preprocessing import KBinsDiscretizer
 from random import shuffle
+from Config import Config
 
 import numpy as np
 
 def normalizeDataset(csv_reader):
+    config = Config()
     data = np.empty([165633,13])
     i = 0
     for sample in csv_reader:
@@ -23,8 +25,8 @@ def normalizeDataset(csv_reader):
         data[i, 12] = encodeClass(sample['class'])
         i = i + 1
     #indaga su axis: sulla doc dicono che 0 normalizza per features su so dicono che sia 1....
-    data_tmp = normalize(data[:, [0,1,2,3,4,5,6,7,8,9,10,11]], norm = 'l2', axis = 0, return_norm = False)
-    est = KBinsDiscretizer(n_bins = 3, encode='ordinal').fit(data_tmp)
+    data_tmp = normalize(data[:, np.arange(12)], norm = 'l2', axis = 0, return_norm = False)
+    est = KBinsDiscretizer(n_bins = config.nOfBuckets(), encode='ordinal').fit(data_tmp)
     data_discretize = est.transform(data_tmp)
     data = np.concatenate((data_discretize, data[:, [12]]), axis = 1)
     #Ora è data a contenere tutte le colonne discretizzate meno l'ultima, quindi sotto devo modificare.
@@ -32,15 +34,7 @@ def normalizeDataset(csv_reader):
     return data
 
 def encodeClass(classStr):
-    try:
-        clss = ['walking', 'standing', 'standingup', 'sitting', 'sittingdown'].index(classStr)
-    except:
-        clss = -1
-    return clss
+    return ['walking', 'standing', 'standingup', 'sitting', 'sittingdown'].index(classStr)
 
 def decodeClass(classStr):
-    try:
-        clss = ['walking', 'standing', 'standingup', 'sitting', 'sittingdown'][classStr]
-    except:
-        clss = ''
-    return clss
+    return ['walking', 'standing', 'standingup', 'sitting', 'sittingdown'][classStr]
