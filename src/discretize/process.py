@@ -22,7 +22,7 @@ def normalizeDataset(csv_reader):
         #data[i, 12] = encodeClass(sample['class'])
         i = i + 1
     normalize(data, norm = 'l2', axis = 1, copy = False, return_norm = False)
-    est = KBinsDiscretizer(n_bins = 5, encode='onehot-dense').fit(data)
+    est = KBinsDiscretizer(n_bins = 5, encode='ordinal').fit(data)
     data_discretized = est.transform(data)
     return data_discretized
 
