@@ -33,5 +33,5 @@ class Snapshot():
                 discHeight = 1.71
             return discHeight
 
-    def toString(self, rng):
+    def toString(self):
         return 'howTallInMeters=' + str(self.howTallInMeters) + ';x1=' + str(self.x1) + ';y1=' + str(self.y1) + ';z1=' + str(self.z1) + ';x2=' + str(self.x2) + ';y2=' + str(self.y2) + ';z2=' + str(self.z2) + ';x3=' + str(self.x3) + ';y3=' + str(self.y3) + ';z3=' + str(self.z3) + ';x4=' + str(self.x4) + ';y4=' + str(self.y4) + ';z4=' + str(self.z4) + ';harClass=' + str(self.harClass)

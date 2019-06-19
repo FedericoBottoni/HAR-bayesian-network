@@ -18,17 +18,14 @@ def testModel(tests):
     if isinstance(query, list):
         print('LOG: Queries')
         correctEntries = 0
-        line = 0
         for test in tests:
-            line += 1
-            if line < 11: 
-                print(test.toString(config.getRangeSize()))
-                q = infer.query(['class'], evidence={'x1':test.x1, 'y1':test.y1, 'z1':test.z1, 'x2':test.x2, 'y2':test.y2, 'z2':test.z2, 'x3':test.x3, 'y3':test.y3, 'z3':test.z3, 'x4':test.x4, 'y4':test.y4, 'z4':test.z4})
-                maxPhi = np.argmax(q.values)
-                if maxPhi == test.harClass:
-                    correctEntries += 1
-                print(q.values)
-                print(maxPhi)
+            print(test.toString())
+            q = infer.query(['class'], evidence={'x1':test.x1, 'y1':test.y1, 'z1':test.z1, 'x2':test.x2, 'y2':test.y2, 'z2':test.z2, 'x3':test.x3, 'y3':test.y3, 'z3':test.z3, 'x4':test.x4, 'y4':test.y4, 'z4':test.z4})
+            maxPhi = np.argmax(q.values)
+            if maxPhi == test.harClass:
+                correctEntries += 1
+            print(q.values)
+            print(maxPhi)
         print('Model precision: ' + str(correctEntries*100/len(tests)) + '%')
     else:
         q = infer.query(['class'], evidence={'x1':test.x1, 'y1':test.y1, 'z1':test.z1, 'x2':test.x2, 'y2':test.y2, 'z2':test.z2, 'x3':test.x3, 'y3':test.y3, 'z3':test.z3, 'x4':test.x4, 'y4':test.y4, 'z4':test.z4})
@@ -71,8 +68,8 @@ def generateCpds(data):
     dfrm = pd.DataFrame(data={'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
     estimator = BayesianEstimator(model, dfrm)
     cpd_C = MaximumLikelihoodEstimator(model, dfrm).estimate_cpd('class')
-    print(cpd_C.get_values())
-    f=open('lucafoppa.txt', "w+")
+    print('LOG: CPD wrote in "output/generatedCPD.txt"')
+    f=open('output/generatedCPD.txt', "w+")
     f.write(str(cpd_C.get_values()))
     f.close()
 
