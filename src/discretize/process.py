@@ -6,7 +6,6 @@ import numpy as np
 
 def normalizeDataset(csv_reader):
     data = np.empty([165633,13])
-    notProcessed = list()
     i = 0
     for sample in csv_reader:
         data[i, 0] = sample['x1']
@@ -21,7 +20,7 @@ def normalizeDataset(csv_reader):
         data[i, 9] = sample['x4']
         data[i, 10] = sample['y4']
         data[i, 11] = sample['z4']
-        notProcessed.append(encodeClass(sample['class']))
+        data[i, 12] = encodeClass(sample['class'])
         i = i + 1
     #indaga su axis: sulla doc dicono che 0 normalizza per features su so dicono che sia 1....
     data_tmp = normalize(data[:, [0,1,2,3,4,5,6,7,8,9,10,11]], norm = 'l2', axis = 0, return_norm = False)
