@@ -1,8 +1,10 @@
 from sklearn.preprocessing import normalize
+from sklearn.preprocessing import KBinsDiscretizer
+
 import numpy as np
 
 def normalizeDataset(csv_reader):
-    data = np.empty([165633,13])
+    data = np.empty([165633,12])
     i = 0
     for sample in csv_reader:
         data[i, 0] = sample['x1']
@@ -17,10 +19,12 @@ def normalizeDataset(csv_reader):
         data[i, 9] = sample['x4']
         data[i, 10] = sample['y4']
         data[i, 11] = sample['z4']
-        data[i, 12] = encodeClass(sample['class'])
+        #data[i, 12] = encodeClass(sample['class'])
         i = i + 1
     normalize(data, norm = 'l2', axis = 1, copy = False, return_norm = False)
-    return data
+    est = KBinsDiscretizer(n_bins = 5, encode='onehot-dense').fit(data)
+    data_discretized = est.transform(data)
+    return data_discretized
 
 def encodeClass(classStr):
     try:
