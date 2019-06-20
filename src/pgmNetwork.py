@@ -5,6 +5,7 @@ from pgmpy.estimators import BayesianEstimator, MaximumLikelihoodEstimator, Cons
 from pgmpy.factors.discrete import TabularCPD
 from pgmpy.inference import VariableElimination
 from py_linq import Enumerable
+from process import decodeClass
 from importCpd import importCpd
 from Config import Config
 from ConfigBn import ConfigBn
@@ -27,15 +28,17 @@ def testModel(tests):
     infer = VariableElimination(model)
     if isinstance(tests, list):
         print('LOG: Queries')
+        line = 1
         correctEntries = 0
         for test in tests:
-            print(test.toString())
+            print(str(line) + '- Waited: ' + decodeClass(int(test.harClass)))
             q = infer.query(['class'], evidence={'x1':test.x1, 'y1':test.y1, 'z1':test.z1, 'x2':test.x2, 'y2':test.y2, 'z2':test.z2, 'x3':test.x3, 'y3':test.y3, 'z3':test.z3, 'x4':test.x4, 'y4':test.y4, 'z4':test.z4})
             maxPhi = np.argmax(q.values)
             if maxPhi == test.harClass:
                 correctEntries += 1
-            print(q.values)
-            print(maxPhi)
+            #print(q.values)
+            print(str(line) + '- Got: ' + decodeClass(int(maxPhi))+ '\n')
+            line += 1
         print('Model precision: ' + str(correctEntries*100/len(tests)) + '%')
     else:
         q = infer.query(['class'], evidence={'x1':test.x1, 'y1':test.y1, 'z1':test.z1, 'x2':test.x2, 'y2':test.y2, 'z2':test.z2, 'x3':test.x3, 'y3':test.y3, 'z3':test.z3, 'x4':test.x4, 'y4':test.y4, 'z4':test.z4})

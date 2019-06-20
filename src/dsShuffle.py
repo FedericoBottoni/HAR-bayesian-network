@@ -5,7 +5,7 @@ from pgmNetwork import testModel, generateCpds, generateSkeleton
 from Snapshot import Snapshot
 from Config import Config
 
-def dsShuffle(mod):
+def dsShuffle(mod, nTests):
     config = Config()
 
     print('LOG: Preprocessing data')
@@ -23,7 +23,7 @@ def dsShuffle(mod):
     snapshots = list()
     line = 0
     for row in data:
-        if line < len(data) * config.percGetData():
+        if line < (len(data) * config.percGetData() if nTests is None else nTests):
             snapshots.append(Snapshot(row))
         line += 1
 

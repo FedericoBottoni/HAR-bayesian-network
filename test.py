@@ -7,4 +7,8 @@ sys.path.append('src\\models')
 sys.path.append('src\\shared')
 
 from dsShuffle import dsShuffle
-dsShuffle('test')
+
+if len(sys.argv) > 1:
+    dsShuffle('test', int(sys.argv[1]))
+else:
+    raise Exception('No argument passed')
