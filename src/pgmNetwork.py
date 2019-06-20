@@ -4,20 +4,28 @@ from pgmpy.models import BayesianModel
 from pgmpy.estimators import BayesianEstimator, MaximumLikelihoodEstimator, ConstraintBasedEstimator
 from pgmpy.factors.discrete import TabularCPD
 from pgmpy.inference import VariableElimination
+from py_linq import Enumerable
+from importCpd import importCpd
 from Config import Config
 from ConfigBn import ConfigBn
 
+def nextCpd(varName, bnet, config):
+    card = config.nOfBuckets() if varName in config.evidences() else 5
+    evidences = Enumerable(bnet.getNetwork()).where(lambda x: x[1] == varName).select(lambda x: x[0])
+    return TabularCPD(varName, card, importCpd(varName), evidence=list(evidences), evidence_card=list(evidences.select(lambda x: config.nOfBuckets())))
+
 def testModel(tests):
     bnet = ConfigBn()
+    config = Config()
     
     print('LOG: Making the network')
     model = BayesianModel(bnet.getNetwork())
-    cpds = []
-    cpds.extend(TabularCPD('class', 5, bnet.getCpd(), evidence=['x1', 'x3', 'y4', 'z1', 'z2', 'z3', 'z4'], evidence_card=[3, 3, 3, 3, 3, 3, 3]))
-    model.add_cpds(cpds)
+    for varName in config.variables():
+        #print(importCpd(varName))
+        model.add_cpds(nextCpd(varName, bnet, config))
     print('LOG: Variable Elimination')
     infer = VariableElimination(model)
-    if isinstance(query, list):
+    if isinstance(tests, list):
         print('LOG: Queries')
         correctEntries = 0
         for test in tests:
@@ -70,8 +78,6 @@ def generateCpds(data):
     print('LOG: Stimate CPDs')
     dfrm = pd.DataFrame(data={'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
     estimator = BayesianEstimator(model, dfrm)
-    # for varName in config.variables():
-    #     print(config.getSavedCpds(varName))
     for varName in config.variables():
         cpd_C = MaximumLikelihoodEstimator(model, dfrm).estimate_cpd(varName)
         print('LOG: CPD wrote in "generatedCPDs/' + varName + '.txt"')
