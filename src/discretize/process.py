@@ -30,8 +30,9 @@ def normalizeDataset(csv_reader):
     data_discretize = est.transform(data_tmp)
     data = np.concatenate((data_discretize, data[:, [12]]), axis = 1)
     #Ora è data a contenere tutte le colonne discretizzate meno l'ultima, quindi sotto devo modificare.
+    data=data.tolist()
     shuffle(data)
-    return data
+    return np.array(data)
 
 def encodeClass(classStr):
     return ['walking', 'standing', 'standingup', 'sitting', 'sittingdown'].index(classStr)
