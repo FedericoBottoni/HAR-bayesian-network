@@ -34,6 +34,49 @@ def normalizeDataset(csv_reader):
     shuffle(data)
     return np.array(data)
 
+def featuresMean(csv_reader):
+    config = Config()
+    data = np.empty([165633,12])
+    i = 0
+    for sample in csv_reader:
+        data[i, 0] = sample['x1']
+        data[i, 1] = sample['y1']
+        data[i, 2] = sample['z1']
+        data[i, 3] = sample['x2']
+        data[i, 4] = sample['y2']
+        data[i, 5] = sample['z2']
+        data[i, 6] = sample['x3']
+        data[i, 7] = sample['y3']
+        data[i, 8] = sample['z3']
+        data[i, 9] = sample['x4']
+        data[i, 10] = sample['y4']
+        data[i, 11] = sample['z4']
+        i = i + 1
+    data_mean = np.mean(data, axis=0)
+    return data_mean
+
+def featuresStd(csv_reader):
+    config = Config()
+    data = np.empty([165633,12])
+    i = 0
+    for sample in csv_reader:
+        data[i, 0] = sample['x1']
+        data[i, 1] = sample['y1']
+        data[i, 2] = sample['z1']
+        data[i, 3] = sample['x2']
+        data[i, 4] = sample['y2']
+        data[i, 5] = sample['z2']
+        data[i, 6] = sample['x3']
+        data[i, 7] = sample['y3']
+        data[i, 8] = sample['z3']
+        data[i, 9] = sample['x4']
+        data[i, 10] = sample['y4']
+        data[i, 11] = sample['z4']
+        i = i + 1
+    data_std = np.std(data, axis=0)
+    return data_std
+
+
 def encodeClass(classStr):
     return ['walking', 'standing', 'standingup', 'sitting', 'sittingdown'].index(classStr)
 
