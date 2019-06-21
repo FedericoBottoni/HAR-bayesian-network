@@ -90,6 +90,7 @@ def generateCpds(data):
         f.close()
 
 def generateSkeleton(data):
+    config = Config()
     x1 = list() 
     y1 = list() 
     z1 = list() 
@@ -126,4 +127,6 @@ def generateSkeleton(data):
     model = BayesianNetwork.from_samples(dfrm, algorithm='greedy')
     t.toc() #Time elapsed since t.tic()
     #print(skel.edges())
-    print(model)
+    f=open('generatedSkeleton/skeletonGraph'+str(config.nOfBuckets())+'buckets.txt', "w+")
+    f.write(str(model.graph))
+    f.close()
