@@ -9,6 +9,8 @@ from process import decodeClass
 from importCpd import importCpd
 from Config import Config
 from ConfigBn import ConfigBn
+from pytictoc import TicToc
+from pomegranate import BayesianNetwork
 
 def nextCpd(varName, bnet, config):
     card = config.nOfBuckets() if varName in config.evidences() else 5
@@ -80,7 +82,6 @@ def generateCpds(data):
     model = BayesianModel(bnet.getNetwork())
     print('LOG: Stimate CPDs')
     dfrm = pd.DataFrame(data={'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
-    estimator = BayesianEstimator(model, dfrm)
     for varName in config.variables():
         cpd_C = MaximumLikelihoodEstimator(model, dfrm).estimate_cpd(varName)
         print('LOG: CPD wrote in "generatedCPDs/' + varName + '.txt"')
@@ -119,5 +120,10 @@ def generateSkeleton(data):
     dfrm = pd.DataFrame(data={'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
     print('LOG: Generate Skeleton')
     est = ConstraintBasedEstimator(dfrm)
-    skel, sep_sets = est.estimate_skeleton()
-    print(skel.edges())
+    t = TicToc() #create instance of class
+    t.tic() #Start timer
+    #skel, sep_sets = est.estimate_skeleton()
+    model = BayesianNetwork.from_samples(dfrm, algorithm='greedy')
+    t.toc() #Time elapsed since t.tic()
+    #print(skel.edges())
+    print(model)
