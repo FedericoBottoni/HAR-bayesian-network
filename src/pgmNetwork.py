@@ -36,7 +36,7 @@ def testModel(tests):
             maxPhi = np.argmax(q.values)
             if maxPhi == test.harClass:
                 correctEntries += 1
-            #print(q.values)
+            print(q.values)
             print(str(line) + '- Got: ' + decodeClass(int(maxPhi))+ '\n')
             line += 1
         print('Model precision: ' + str(correctEntries*100/len(tests)) + '%')
