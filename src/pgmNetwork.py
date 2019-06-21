@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from pgmpy.models import BayesianModel
-from pgmpy.estimators import BayesianEstimator, MaximumLikelihoodEstimator, ConstraintBasedEstimator
+from pgmpy.estimators import MaximumLikelihoodEstimator, ConstraintBasedEstimator
 from pgmpy.factors.discrete import TabularCPD
 from pgmpy.inference import VariableElimination
 from py_linq import Enumerable
@@ -9,8 +9,6 @@ from process import decodeClass
 from importCpd import importCpd
 from Config import Config
 from ConfigBn import ConfigBn
-from pytictoc import TicToc
-from pomegranate import BayesianNetwork
 
 def nextCpd(varName, bnet, config):
     card = config.nOfBuckets() if varName in config.evidences() else 5
@@ -89,8 +87,8 @@ def generateCpds(data):
         f.write(str(cpd_C.get_values()))
         f.close()
 
+
 def generateSkeleton(data):
-    config = Config()
     x1 = list() 
     y1 = list() 
     z1 = list() 
@@ -121,12 +119,5 @@ def generateSkeleton(data):
     dfrm = pd.DataFrame(data={'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
     print('LOG: Generate Skeleton')
     est = ConstraintBasedEstimator(dfrm)
-    t = TicToc() #create instance of class
-    t.tic() #Start timer
-    #skel, sep_sets = est.estimate_skeleton()
-    model = BayesianNetwork.from_samples(dfrm, algorithm='greedy')
-    t.toc() #Time elapsed since t.tic()
-    #print(skel.edges())
-    f=open('generatedSkeleton/skeletonGraph'+str(config.nOfBuckets())+'buckets.txt', "w+")
-    f.write(str(model.graph))
-    f.close()
+    skel, sep_sets = est.estimate_skeleton()
+    print(skel.edges())
