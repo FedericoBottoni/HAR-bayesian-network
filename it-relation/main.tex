@@ -94,7 +94,7 @@ La semantica dei dati utilizzati è definita nel paper\cite{Paper} del progetto 
 
 \subsection{Ipotesi e assunzioni}
 Durante lo studio del caso sono state discrimate le features utili al training della rete (i vettori dei sensori) da quelle assunte come superflue (user, gender, age, weight, body\_mass\_index) le quali potrebbero essere utilizzate per specializzarla ulteriormente.\newline
-La scelta riguardo all'attributo \emph{how\_tall\_in\_meters} non è stata particolarmente immediata dato che il training set considera un range di 13cm (1.58m - 1.71m) che distribuiti in un corpo umano non crea l'informazione necessaria per poter affermare che tutti i sensori si trovano 13cm più o meno vicini al terreno. La rete dovrebbe essere comunque in grado di predirre le azioni di un bambino, il quale ha altezza decisamente inferiore rispetto a quella precedentemente descritta, perciò [...] TODO [...] 
+La scelta riguardo all'attributo \emph{how\_tall\_in\_meters} non è stata particolarmente immediata dato che il training set considera un range di 13cm (1.58m - 1.71m) che distribuiti in un corpo umano non crea l'informazione necessaria per poter affermare che tutti i sensori si trovano 13cm più o meno vicini al terreno. La rete dovrebbe essere comunque in grado di predirre le azioni di un bambino, il quale ha altezza decisamente inferiore rispetto a quella precedentemente descritta, ciò nonostante assumiamo che l'utente abbia un'altezza nel range descritto dato che in alcuni test affrontati, la complessità della rete era tale da scatenare MemoryError nella rappresentazione dei dati.
 
 \section{Scelte di design}
 \subsection{Analisi statistica e qualitativa}
