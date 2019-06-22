@@ -146,13 +146,19 @@ Il software inizialmente scelto è pgmpy\cite{pgmpy} di Python, una libreria che
 Utilizzando la libreria ci siamo resi conto di come sia performante utilizzando modelli semplici e correlati da pochi record, tuttavia appena è avvenuta l'esecuzione della stima delle CPT nel primo modello completo ideato abbiamo riscontrato le prime difficoltà.
 
 \subsubsection{Modello correlato}
-L'idea che sta alla base di questo primo modello consiste nello stimare le dipendenze tramite lo strumento statistico \emph{indice di correlazione di Paerson}, assumendo che se due feautres hanno distribuzioni simili (e quindi alta correlazione diretta o inversa) allora vi è una dipendenza tra le due
+L'idea che sta alla base di questo primo modello consiste nello stimare le dipendenze tramite lo strumento statistico \emph{indice di correlazione di Paerson}, assumendo che se due feautres hanno distribuzioni simili (e quindi alta correlazione diretta o inversa) allora vi è una dipendenza tra le due. Sono state così selezionate le relazioni scartando le simmetrie e stimate le CPT tramite il metodo \emph{MaximumLikelihoodEstimator} della libreria basandosi sui sample passati come parametro. \newline
+
 \begin{figure}[H]
 	\centering
 	{\includegraphics[width=1\textwidth]{images/corr05.JPG}}
 	\caption{Indice di correlazione di Paerson calcolato su tutte le le combinazioni di componenti}
 	\label{fig:corr}
 \end{figure}
+
+Successivamente abbiamo stimato la precisione del modello calcolando il rapporto tra le inferenze corrette su quelle totali. Il metodo utilizzato, \emph{query}, si occupa di effettuare la singola previsione. Abbiamo notato che a parità di modello, raddoppiando il numero delle classi per ogni variabile, il tempo impiegato dalla funzione aumenta vertiginosamente, perciò abbiamo stimato la precisione del modello più complesso possibile ma con tempi di esecuzione nella norma. \newline
+Il modello consiste in cinque classi per ogni variabile e le seguenti dipendenze tra le variabili:\newline \emph{[('x1', 'class'),('x3', 'class'),('y4', 'class'), ('z1', 'class'), ('z2', 'class'), ('z3', 'class'), ('z4', 'class'), ('y1', 'z1'), ('x2', 'y2'), ('x2', 'z2'), ('y2', 'z2'), ('y3', 'z3'), ('x4', 'z1'),  ('x4', 'y4')]}.\newline
+La precisione stimata è del 54\%, un valore troppo basso per giustificare la computazione così lunga e dispendiosa di risorse. Abbiamo deciso così di tentare con un modello differente.
+
 \subsubsection{Generazione del modello}
 Dato l'insuccesso del modello correlato abbiamo cercato di generare la miglior configurazione di dipendenze secondo la libreria. Dopo il lancio della funzione che si occupa di chiamare l'API per la generazione abbiamo atteso circa 8 ore e successivamente interrotto l'esecuzione. Forse per la mole di dati, forse per la discretizzazione del dataset o forse per la natura stessa dell'algoritmo, non vi è stato alcun risultato.
 
