@@ -9,7 +9,7 @@ from ConfigBn import ConfigBn
 from pytictoc import TicToc
 from pomegranate import BayesianNetwork
 
-def generatePomSkeleton(data):
+def generateSkeleton(data):
     config = Config()
     x1 = list() 
     y1 = list() 
@@ -48,4 +48,51 @@ def generatePomSkeleton(data):
     #print(skel.edges())
     with open('generatedSkeleton/skeletonGraph'+str(config.nOfBuckets())+'buckets.txt', "w+") as f:
         f.write(model.to_json())
-        
+
+
+
+def testModel(data, tests):
+
+
+    bnet = ConfigBn()
+    config = Config()
+    
+    
+    #f=open('generatedSkeleton/SkeletonGraph'+str(config.nOfBuckets())+'buckets.txt', "r", newline="\r\n", encoding="utf-8")
+    #model=BayesianNetwork.from_json(f.read())
+    config = Config()
+    x1 = list() 
+    y1 = list() 
+    z1 = list() 
+    x2 = list() 
+    y2 = list() 
+    z2 = list() 
+    x3 = list() 
+    y3 = list() 
+    z3 = list() 
+    x4 = list() 
+    y4 = list() 
+    z4 = list() 
+    harClass = list() 
+    for row in data:
+        x1.append(row.x1)
+        y1.append(row.y1)
+        z1.append(row.z1)
+        x2.append(row.x2)
+        y2.append(row.y2)
+        z2.append(row.z2)
+        x3.append(row.x3)
+        y3.append(row.y3)
+        z3.append(row.z3)
+        x4.append(row.x4)
+        y4.append(row.y4)
+        z4.append(row.z4)
+        harClass.append(row.harClass)
+    dfrm = pd.DataFrame(data={'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
+    
+    model = BayesianNetwork.from_samples(dfrm, algorithm='greedy', state_names=["x1", "y1", "z1","x2", "y2", "z2","x3", "y3", "z3","x4", "y4", "z4","class"])
+    model.bake()
+    print(model.score(Enumerable(tests)
+        .select(lambda x: [x.x1, x.y1, x.z1, x.x2, x.y2, x.z2, x.x3, x.y3, x.z3, x.x4, x.y4, x.z4, x.harClass]).to_list(), 
+        ["x1", "y1", "z1","x2", "y2", "z2","x3", "y3", "z3","x4", "y4", "z4","class"]))
+    #prediction = model.predict([[2,3,0,0,0,0,2,3,3,1,3,4,None]])

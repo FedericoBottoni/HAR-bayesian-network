@@ -8,7 +8,4 @@ sys.path.append('src\\shared')
 
 from dsShuffle import dsShuffle
 
-if len(sys.argv) > 1:
-    dsShuffle('test', int(sys.argv[1]))
-else:
-    raise Exception('No argument passed')
+dsShuffle('test')

@@ -10,4 +10,4 @@ sys.path.append('src\\shared')
 from dsShuffle import dsShuffle
 
 numpy.set_printoptions(precision=None, threshold=sys.maxsize, suppress="true", floatmode="maxprec_equal")
-dsShuffle('pomSkeleton', None)
+dsShuffle('skeleton')

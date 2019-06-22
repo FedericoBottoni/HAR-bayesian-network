@@ -2,7 +2,7 @@
 class Config():
 
     def percGetData(self):
-        return 1
+        return 0.9
 
     def nOfBuckets(self):
         return 5
