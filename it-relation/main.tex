@@ -77,18 +77,18 @@
 Il progetto ha l'obiettivo di creare un modello di Rete Bayesiana capace di predirre il tipo di azione che sta effettuando un ipotetico individuo che indossa il "HAR wearable devices setup", una particolare sistema indossabile composto da 4 accelerometri che permette di analizzare i vettori accelerazione dei sensori in questione. Viene fornito dal progetto di riferimento\cite{HAR} un dataset contenente dati sufficienti per effettuare training e testing del modello
 
 \subsection{Dominio di riferimento}
-La natura dei dati utilizzati è definita nel paper\cite{Paper} del progetto di provenienza. La singola entry del dataset rappresenta uno snapshot acquisito dai sensori e consiste in:
+La semantica dei dati utilizzati è definita nel paper\cite{Paper} del progetto di provenienza. La singola entry del dataset rappresenta uno snapshot acquisito dai sensori e consiste in:
 \begin{itemize}
-	\item user: stringa rappresentante l'username dell'individuo in oggetto
-	\item geneder: stringa relativa al suo genere
-	\item age: intero dell'età
-	\item how\_tall\_in\_meters: decimale che esprime l'altezza
-	\item weight: intero riguardo al peso
-	\item body\_mass\_index: decimale rappresentante la distribuzione del peso
-	\item xi: intero che esprime la componente x del vettore accelerazione nel sensore i-esimo
-	\item yi: intero che esprime la componente y del vettore accelerazione nel sensore i-esimo
-	\item zi: intero che esprime la componente z del vettore accelerazione nel sensore i-esimo
-	\item class: stringa, il target del modello sviluppato: rappresenta l'azione/situazione dell'individuo al momento dello snapshot, può assumere il valore di "walking", "standing", "standingup", "sitting" e "sittingdown"
+	\item user: username dell'individuo in oggetto (string).
+	\item gender: genere del soggetto (string).
+	\item age: età dell'individuo (int).
+	\item how\_tall\_in\_meters: altezza del soggetto espressa in metri (int).
+	\item weight: peso espresso in kilogrammi (int).
+	\item body\_mass\_index: indice di massa corporea. Si ottiene dividendo il peso per il quadrato dell'altezza (float).
+	\item xi: intero che esprime la componente x del vettore accelerazione nel sensore i-esimo (int).
+	\item yi: intero che esprime la componente y del vettore accelerazione nel sensore i-esimo (int).
+	\item zi: intero che esprime la componente z del vettore accelerazione nel sensore i-esimo (int).
+	\item class: è la variabile target della previsione e indica l'azione eseguita dal soggetto al momento della rilevazione dei dati. Può assumere il valore di "walking", "standing", "standingup", "sitting" e "sittingdown" (string).
 \end{itemize}
 
 
@@ -104,7 +104,7 @@ La scelta riguardo all'attributo \emph{how\_tall\_in\_meters} non è stata parti
 	\caption{Dataset dopo lo shuffle}
 	\label{fig:dataset}
 \end{figure}
-Il dataset si presenta come in figura \ref{fig:dataset} dopo una prima fase di pulizia, in cui sono stati individuati alcuni caratteri non necessari tra i campi e timestamp inaspettati tra le entry della tabella, ed una seconda di shuffle, nella quale i record sono stati randomizzati.\newline
+Il dataset si presenta come in figura \ref{fig:dataset} dopo una prima fase di pulizia, in cui sono stati individuati alcuni caratteri non necessari tra i campi e timestamp inaspettati tra le entry della tabella, ed una seconda di shuffle, nella quale i record sono stati randomizzati. \newline
 E' stata effettuata inoltre una fase di analisi statistico-descrittiva considerando le features che assumono valori in range indefiniti per cercare di individuare qualche distribuzione particolare o comportamento anomalo.
 
 
@@ -134,23 +134,32 @@ E' stata effettuata inoltre una fase di analisi statistico-descrittiva considera
 Dalla tabella \ref{tab:analytics} si può notare che i range di variabilità degli attributi non seguono comportamenti particolari, tanto meno le distribuzioni che in alcuni casi sono caratterizzati da deviazione standard particolarmente bassa (come il caso di \emph{x1}) mentre in altri casi molto alta (come \emph{y2}).
 
 \subsection{Normalizzazione}
+
 \subsection{Discretizzazione}
+Inizialmente i dati sono stati suddivisi in partizioni a range identici senza tenere conto di come questi fossero distribuiti. Successivamente abbiamo realizzato come questa procedura fosse imprecisa dopo aver osservato il modo in cui le distribuzioni di probabilità si sbilanciavano prevalentemente verso una sola classe della variabile. \newline
+Il metodo applicato successivamente [TODO]
+
 
 \section{I modelli di rete}
 \subsection{pgmpy}
-Il software scelto è pgmpy\cite{pgmpy} di Python, una libreria che permette di modellare le dipendenze in modo agile, stimare le CPT delle variabili sfruttando dei metodi che accettano il dataset ed effettuare inferenze dichiarando la variabile di query e le evidenze. \linebreak
-Utilizzando la libreria ci siamo resi conto di come sia performante utilizzando modelli semplici e correlati da pochi record, tuttavia appena è avvenuta l'esecuzione della stima delle CPT nel primo modello completo ideato abbiamo riscontrato le prime difficoltà: il modello decisamente complesso viene bloccato da Python date le eccessive combinazioni possibli. Abbiamo quindi tentato di semplificare la rete.
+Il software inizialmente scelto è pgmpy\cite{pgmpy} di Python, una libreria che permette di modellare le dipendenze in modo agile e stimare le CPT delle variabili sfruttando dei metodi che accettano il dataset ed infine effettuare inferenze dichiarando la variabile di query e le evidenze. \linebreak
+Utilizzando la libreria ci siamo resi conto di come sia performante utilizzando modelli semplici e correlati da pochi record, tuttavia appena è avvenuta l'esecuzione della stima delle CPT nel primo modello completo ideato abbiamo riscontrato le prime difficoltà.
 
-\subsection{Il modello correlato}
+\subsubsection{Modello correlato}
+L'idea che sta alla base di questo primo modello consiste nello stimare le dipendenze tramite lo strumento statistico \emph{indice di correlazione di Paerson}, assumendo che se due feautres hanno distribuzioni simili (e quindi alta correlazione diretta o inversa) allora vi è una dipendenza tra le due
 \begin{figure}[H]
 	\centering
 	{\includegraphics[width=1\textwidth]{images/corr05.JPG}}
-	\caption{Indice di correlazione di Paerson calcolato su tuttle le combinazioni di componenti}
+	\caption{Indice di correlazione di Paerson calcolato su tutte le le combinazioni di componenti}
 	\label{fig:corr}
 \end{figure}
+\subsubsection{Generazione del modello}
+Dato l'insuccesso del modello correlato abbiamo cercato di generare la miglior configurazione di dipendenze secondo la libreria. Dopo il lancio della funzione che si occupa di chiamare l'API per la generazione abbiamo atteso circa 8 ore e successivamente interrotto l'esecuzione. Forse per la mole di dati, forse per la discretizzazione del dataset o forse per la natura stessa dell'algoritmo, non vi è stato alcun risultato.
 
+\subsection{pomegranate}
+Alla luce dei test effettuati abbiamo deciso di utilizzare un'altra libreria: Pomegranate \cite{pomegranate}, secondo gli utenti di alcuni forum, dovrebbe essere performante anche nei casi in cui \emph{pgmpy} non lo è. La libreria è nota inoltre per avere API molto simili a quelle di scikit-learn \cite{scikit-learn} (uno tra i software leader nel campo del Machine Learning) 
 
-
+\subsubsection{Modello generato}
 \clearpage
 \section{Risultati e conclusioni}
 
