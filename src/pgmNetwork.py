@@ -26,7 +26,7 @@ def testModel(tests):
     model=BayesianNetwork.from_json(f.read())
     print(model.edge_count())
     print(model.node_count())
-    a=model.marginal()
+    print(model.predict([['2', '3', '0', '0', '0', '0', '2', '3', '3', '1', '3', '4', None]]))
 
     print('LOG: Making the network')
     model = BayesianModel(bnet.getNetwork())

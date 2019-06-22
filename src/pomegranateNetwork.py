@@ -48,3 +48,4 @@ def generatePomSkeleton(data):
     #print(skel.edges())
     with open('generatedSkeleton/skeletonGraph'+str(config.nOfBuckets())+'buckets.txt', "w+") as f:
         f.write(model.to_json())
+        
