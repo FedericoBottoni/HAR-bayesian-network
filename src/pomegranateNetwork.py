@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import json
 from py_linq import Enumerable
 from process import decodeClass
 from importCpd import importCpd
@@ -8,7 +9,7 @@ from ConfigBn import ConfigBn
 from pytictoc import TicToc
 from pomegranate import BayesianNetwork
 
-def generateSkeleton(data):
+def generatePomSkeleton(data):
     config = Config()
     x1 = list() 
     y1 = list() 
@@ -39,13 +40,11 @@ def generateSkeleton(data):
         harClass.append(row.harClass)
     dfrm = pd.DataFrame(data={'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
     print('LOG: Generate Skeleton')
-    est = ConstraintBasedEstimator(dfrm)
     t = TicToc() #create instance of class
     t.tic() #Start timer
     #skel, sep_sets = est.estimate_skeleton()
-    model = BayesianNetwork.from_samples(dfrm, algorithm='greedy')
+    model = BayesianNetwork.from_samples(dfrm, algorithm='greedy', state_names=["x1", "y1", "z1","x2", "y2", "z2","x3", "y3", "z3","x4", "y4", "z4","class"])
     t.toc() #Time elapsed since t.tic()
     #print(skel.edges())
-    f=open('generatedSkeleton/skeletonGraph'+str(config.nOfBuckets())+'buckets.txt', "w+")
-    f.write(str(model.graph))
-    f.close()
+    with open('generatedSkeleton/skeletonGraph'+str(config.nOfBuckets())+'buckets.txt', "w+") as f:
+        f.write(model.to_json())

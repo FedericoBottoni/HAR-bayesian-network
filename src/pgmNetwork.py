@@ -9,6 +9,7 @@ from process import decodeClass
 from importCpd import importCpd
 from Config import Config
 from ConfigBn import ConfigBn
+from pomegranate import BayesianNetwork
 
 def nextCpd(varName, bnet, config):
     card = config.nOfBuckets() if varName in config.evidences() else 5
@@ -16,9 +17,17 @@ def nextCpd(varName, bnet, config):
     return TabularCPD(varName, card, importCpd(varName), evidence=list(evidences), evidence_card=list(evidences.select(lambda x: config.nOfBuckets())))
 
 def testModel(tests):
+
+
     bnet = ConfigBn()
     config = Config()
     
+    f=open('generatedSkeleton/SkeletonGraph'+str(config.nOfBuckets())+'buckets.txt', "r", newline="\r\n", encoding="utf-8")
+    model=BayesianNetwork.from_json(f.read())
+    print(model.edge_count())
+    print(model.node_count())
+    a=model.marginal()
+
     print('LOG: Making the network')
     model = BayesianModel(bnet.getNetwork())
     for varName in config.variables():

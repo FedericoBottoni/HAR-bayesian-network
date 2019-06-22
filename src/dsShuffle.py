@@ -2,6 +2,7 @@ import pandas as pd
 import csv
 from process import normalizeDataset, encodeClass, featuresMean, featuresStd
 from pgmNetwork import testModel, generateCpds, generateSkeleton
+from pomegranateNetwork import generatePomSkeleton
 from Snapshot import Snapshot
 from Config import Config
 
@@ -42,6 +43,8 @@ def dsShuffle(mod, nTests):
         generateCpds(snapshots)
     elif mod == 'test':
         testModel(snapshots)
+    elif mod == 'pomSkeleton':
+        generatePomSkeleton(snapshots)
 
 def makeInference(query):
     #raise Exception('Not implemented: parse the query and call testModel with a single snapshot')
