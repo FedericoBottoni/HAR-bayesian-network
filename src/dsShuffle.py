@@ -1,5 +1,6 @@
 import pandas as pd
 import csv
+from py_linq import Enumerable
 from process import normalizeDataset, encodeClass, featuresMean, featuresStd
 import pgmNetwork
 import pomegranateNetwork
@@ -10,10 +11,7 @@ def dsShuffle(mod):
     config = Config()
 
     print('LOG: Preprocessing data')
-    data=list()
-    with open('data/FixedDataset.csv') as csv_file:
-        csv_reader = csv.DictReader(csv_file, delimiter=';')
-        data = normalizeDataset(csv_reader)
+    data = getData()
     with open('data/FixedDataset.csv') as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=';')
         data_mean = featuresMean(csv_reader)
@@ -48,6 +46,28 @@ def dsShuffle(mod):
     elif mod == 'test':
         pomegranateNetwork.testModel(snapshots, tests)
 
+def getData():
+    data=list()
+    with open('data/FixedDataset.csv') as csv_file:
+        csv_reader = csv.DictReader(csv_file, delimiter=';')
+        data = normalizeDataset(csv_reader)
+    return data
+
 def makeInference(query):
-    #raise Exception('Not implemented: parse the query and call testModel with a single snapshot')
-    return
+    config = Config()
+    attCouples = Enumerable(query.split(';')).select(lambda x: x.split('=')).to_list()
+    row = Enumerable(config.evidences()).select(lambda x: getVals(x, attCouples)).to_list()
+    row.append(None)
+    snap = Snapshot(row)
+    print(snap.toString())
+    pomegranateNetwork.testModel(snap, getData())
+
+    
+def getVals(x, attCouples): 
+        values = Enumerable(attCouples).where(lambda y: x == y[0]).to_list()
+        if len(values) == 1:
+            return values[0][1]
+        elif len(values) == 0:
+            raise Exception('Missing param: "' + x + '"')
+        else:
+            raise Exception('Param "' + x + '" given more then one time')
