@@ -90,9 +90,25 @@ def testModel(data, tests):
         harClass.append(row.harClass)
     dfrm = pd.DataFrame(data={'x1':x1, 'y1':y1, 'z1':z1, 'x2':x2, 'y2':y2, 'z2':z2, 'x3':x3, 'y3':y3, 'z3':z3, 'x4':x4, 'y4':y4, 'z4':z4, 'class': harClass})
     
-    model = BayesianNetwork.from_samples(dfrm, algorithm='greedy', state_names=["x1", "y1", "z1","x2", "y2", "z2","x3", "y3", "z3","x4", "y4", "z4","class"])
+    model = BayesianNetwork.from_samples(dfrm, reduce_dataset=True, algorithm='greedy', state_names=["x1", "y1", "z1","x2", "y2", "z2","x3", "y3", "z3","x4", "y4", "z4","class"])
     model.bake()
-    print(model.score(Enumerable(tests)
-        .select(lambda x: [x.x1, x.y1, x.z1, x.x2, x.y2, x.z2, x.x3, x.y3, x.z3, x.x4, x.y4, x.z4, x.harClass]).to_list(), 
-        ["x1", "y1", "z1","x2", "y2", "z2","x3", "y3", "z3","x4", "y4", "z4","class"]))
-    #prediction = model.predict([[2,3,0,0,0,0,2,3,3,1,3,4,None]])
+    #t = TicToc() #create instance of class
+    #t.tic() #Start timer
+    #print(model.score(np.array([[tests[0].x1, tests[0].y1, tests[0].z1, tests[0].x2, tests[0].y2, tests[0].z2, tests[0].x3, tests[0].y3, tests[0].z3, tests[0].x4, tests[0].y4, tests[0].z4, tests[0].harClass],[tests[1].x1, tests[1].y1, tests[1].z1, tests[1].x2, tests[1].y2, tests[1].z2, tests[1].x3, tests[1].y3, tests[1].z3, tests[1].x4, tests[1].y4, tests[1].z4, tests[1].harClass]]), np.array([tests[0].harClass,tests[1].harClass])))
+    #a = np.array(Enumerable(tests).select(lambda x: [x.x1, x.y1, x.z1, x.x2, x.y2, x.z2, x.x3, x.y3, x.z3, x.x4, x.y4, x.z4, x.harClass]).to_list())
+    #b = np.array(Enumerable(tests).select(lambda x: x.harClass).to_list())
+    #print(model.score(a, b))
+    #t.toc() #Time elapsed since t.tic()
+
+    testsArray = np.array(Enumerable(tests).select(lambda x: [x.x1, x.y1, x.z1, x.x2, x.y2, x.z2, x.x3, x.y3, x.z3, x.x4, x.y4, x.z4, None]).to_list())
+    tags = np.array(Enumerable(tests).select(lambda x: x.harClass).to_list())
+
+    prediction = model.predict(testsArray)
+    i=0
+    corrects=0
+    for p in prediction:
+        if(p[12]==tags[i]):
+            corrects+=1
+    
+    print('Score: ' + str(corrects*100/len(tests)) + '%')
+    

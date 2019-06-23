@@ -24,15 +24,17 @@ def normalizeDataset(csv_reader):
         data[i, 11] = sample['z4']
         data[i, 12] = encodeClass(sample['class'])
         i = i + 1
+    data=data.tolist()
+    shuffle(data)
+    #data=data[:int(len(data)*0.1)]
+    data=np.array(data)
     #indaga su axis: sulla doc dicono che 0 normalizza per features su so dicono che sia 1....
     data_tmp = normalize(data[:, np.arange(12)], norm = 'l2', axis = 0, return_norm = False)
     est = KBinsDiscretizer(n_bins = config.nOfBuckets(), encode='ordinal').fit(data_tmp)
     data_discretize = est.transform(data_tmp)
     data = np.concatenate((data_discretize, data[:, [12]]), axis = 1)
     #Ora è data a contenere tutte le colonne discretizzate meno l'ultima, quindi sotto devo modificare.
-    data=data.tolist()
-    shuffle(data)
-    return np.array(data)
+    return data
 
 def featuresMean(csv_reader):
     config = Config()
