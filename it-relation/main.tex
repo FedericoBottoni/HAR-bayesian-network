@@ -149,7 +149,7 @@ Dalla tabella \ref{tab:analytics} si può notare che i range di variabilità deg
 	\begin{subfigure}{0.5\textwidth}
 		\includegraphics[width=0.9\linewidth, height=5cm]{images/x1discretize.PNG}
 		\caption{x1 normalizzata e discretizzata.}
-		\label{fig:subim2}
+		\label{fig:subim3}
 	\end{subfigure}
 	\caption{Normalizzazione e discretizzazione della feature x1.}
 	\label{x1}
@@ -157,7 +157,7 @@ Dalla tabella \ref{tab:analytics} si può notare che i range di variabilità deg
 
 \subsection{Normalizzazione}
 Nella fase embrionale della progettazione la normalizzazione era stata ignorata. Infatti la predizione lavorava su features che avevano range piuttosto incosistenti al variare del sensore e della componente del vettore accelerazione considerata. Questo si può notare dalle colonne \textit{Min} e \textit{Max} in tabella \ref{tab:analytics}, che si riferisce ai dati grezzi parzialmente ripuliti. Quindi si è pensato di effettuare una normalizzazione per ogni feature, in modo da compattare i valori tra -1 e 1 andando anche a eliminare gli outliers. \par
-Di seguito, nelle figure \ref{x1} e \ref{z4}, sono presentati alcuni grafici che illustrano la distribuzione dei valori di alcune features prima e dopo la normalizzazione. A seguito dell'operazione di normalizzazione il dataset appare come riportato in figura \ref{fig:normalized}.
+Di seguito, nelle figure \ref{x1} e \ref{z4}, sono presentati alcuni grafici che illustrano la distribuzione dei valori di alcune features prima e dopo la normalizzazione. A seguito dell'operazione di normalizzazione il dataset appare come riportato in figura \ref{normalized}.
 
 \begin{figure}[H]
 	\includegraphics[width=1\textwidth]{images/datasetNormalizzato.PNG}
@@ -225,9 +225,27 @@ Dato l'insuccesso del modello correlato abbiamo cercato di generare la miglior c
 Alla luce dei test effettuati abbiamo deciso di utilizzare un'altra libreria: Pomegranate \cite{pomegranate}, secondo gli utenti di alcuni forum, dovrebbe essere performante anche nei casi in cui \emph{pgmpy} non lo è. La libreria è nota inoltre per avere API molto simili a quelle di scikit-learn \cite{scikit-learn} (uno tra i software leader nel campo del Machine Learning) 
 
 \subsubsection{Modello generato}
+Il modello proposto viene generato automaticamente dalla libreria tramite la funzione \emph{from\_samples} la quale genera gli stati della rete e le dipendenze basandosi sul training-set passato, dando all'utente la possibilità di esportare un file JSON (poco comprensibile) contente tutti i dati del modello. Oltre a questa non vi sono altre API per ottenere informazioni riguardo alla rete.\newline
+Nonostante la lunga attesa per poter ottenere i dati riguardo all'accuratezza del modello, i risultati sono più che soddisfacenti \ref{tab:results}, tra cui Accuracy del modello: 97\%.\newline
+\begin{table}[h]
+	\caption{Score del modello}\label{tab:results}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		Campo & Precision & Recall & F1 Score\\
+		\hline
+		Walking & 97\% & 97\% & 97\% \\
+		Standing & 99\% & 98\% & 98\% \\
+		Standingup & 90\% & 87\% & 90\% \\
+		Sitting & 99\% & 99\% & 99\% \\
+		Sittingdown & 86\% & 92\% & 89\% \\
+		\hline
+	\end{tabular}
+\end{table}
+Un fatto che ci ha particolarmente colpito del modello generato da Pomegranate è che in alcuni casi le inferenze venivano restituite dall'API senza essere state risolte. Ipotizziamo che quando la rete non è in grado di effettuare una decisione, restituisce \emph{None} invece di assegnare una valore casuale al risultato. Queste particolari inferenze sono state ignorate nel calcolo delle performance dato che il numero di esse è estremamente ridotto, circa lo 0.09\% delle totali. \newline
+Date le notevoli performance del modello, è stato sviluppato un software che permette di istanziare il modello e lanciare una o più inferenze, eseguibile tramite '\emph{python inference.py "x1=-5;y1=30;z1=-20;x2=..."}' e viene restituito in output la predizione. Nel caso il parametro stringa venga omesso, il software elabora un array di stringhe in "inference/in.txt", le interpreta come query alla variabile \emph{class} del modello e stampa in "inference/out.txt" i risultati. 
 \clearpage
 \section{Conclusioni}
-L'obiettivo di questo lavoro è inferire l'azione compiuta da un soggetto tramite i dati rilevati da un sistema di 4 accellerometri. La previsione è stata ottenuta mediante una rete Bayesiana che modella le dipendenze tra i sensori, visti come variabili casuali.\par L'obiettivo è stato raggiunto tramite l'approccio \textit{learning structure by data,} dopo aver provato inizialmente a individuare la struttura tramite uno studio di correlazione manuale tra i dati. Il modello generato riesce a inferire l'azione compiuta dal soggetto con una precisione molto alta, di circa 97\%. Inoltre, i sample del dataset sono ben distribuiti tra le varie attività, quindi quando il modello viene generato, la fase di shuffle e di campionamento dei sample non influiscono sulla precisione nell'inferenza. Una difficoltà importante riportata nella progettazione è la mancata visualizzazione della struttura della rete. Infatti i risultati riportati sono stati ottenuti con la libreria \cite{pomegranate} che si è scoperto essere sprovvista delle API per la visualizzazione dello scheletro e in generale poco documentata e supportata. L'unica funzione disponibile è l'esportazione tramite JSON che pero' risulta in un file difficilmente interpretabile.
+L'obiettivo di questo lavoro è inferire l'azione compiuta da un soggetto tramite i dati rilevati da un sistema di 4 accelerometri. La previsione è stata ottenuta mediante una rete Bayesiana che modella le dipendenze tra i sensori, visti come variabili casuali.\par L'obiettivo è stato raggiunto tramite l'approccio \textit{learning structure by data,} dopo aver provato inizialmente a individuare la struttura tramite uno studio di correlazione manuale tra i dati. Il modello generato riesce a inferire l'azione compiuta dal soggetto con una precisione molto alta, di circa 97\%. Inoltre, i sample del dataset sono ben distribuiti tra le varie attività, quindi quando il modello viene generato, la fase di shuffle e di campionamento dei sample non influiscono sulla precisione nell'inferenza. Una difficoltà importante riportata nella progettazione è la mancata visualizzazione della struttura della rete. Infatti i risultati riportati sono stati ottenuti con la libreria \cite{pomegranate} che si è scoperto essere sprovvista delle API per la visualizzazione dello scheletro e in generale poco documentata e supportata. L'unica funzione disponibile è l'esportazione tramite JSON che pero' risulta in un file difficilmente interpretabile.
 \newpage
 \bibliographystyle{plain}
 \bibliography{biblist}
