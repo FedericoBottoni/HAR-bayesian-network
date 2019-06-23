@@ -103,12 +103,24 @@ def testModel(data, tests):
     testsArray = np.array(Enumerable(tests).select(lambda x: [x.x1, x.y1, x.z1, x.x2, x.y2, x.z2, x.x3, x.y3, x.z3, x.x4, x.y4, x.z4, None]).to_list())
     tags = np.array(Enumerable(tests).select(lambda x: x.harClass).to_list())
 
+    t = TicToc()
+    t.tic()
     prediction = model.predict(testsArray)
     i=0
     corrects=0
     for p in prediction:
         if(p[12]==tags[i]):
             corrects+=1
-    
+        i+=1
+    t.toc()
     print('Score: ' + str(corrects*100/len(tests)) + '%')
-    
+    #repeating code for security reasons
+    i=0
+    corrects=0
+    with open('scores/scoresW'+config.nOfBuckets()+'buckets.txt', 'w+', encoding='utf-8', newline='\n') as f:
+        for p in prediction:
+            if(p[12]==tags[i]):
+                f.write(str(p[12])+' == '+str(tags[i])+'\r\n')
+            else:
+                f.write(str(p[12])+' != '+str(tags[i])+'\r\n')
+            i+=1

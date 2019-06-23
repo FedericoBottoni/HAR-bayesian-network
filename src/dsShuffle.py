@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import csv
 from py_linq import Enumerable
 from process import normalizeDataset, encodeClass, featuresMean, featuresStd
@@ -22,11 +23,9 @@ def dsShuffle(mod):
         data_std = featuresStd(csv_reader)
     with open('datasetMeasures/FeaturesStd.txt', 'w+') as file:
         file.write(str(data_std))
-    #with open('data/Shuffled.csv', mode='w+', newline="\n", encoding="utf-8") as csv_file:
-    #    csv_writer = csv.writer(csv_file, delimiter=';', quotechar='"', lineterminator='\r\n', quoting=csv.QUOTE_MINIMAL)
-    #    csv_writer.writerow(head) 
-    #    for row in data:
-    #        csv_writer.writerow(row) 
+    wb=open('data/Shuffled.csv', mode='wb')
+    np.savetxt(wb, data, delimiter=";", newline="\r\n", fmt='%f')
+    wb.close()
     
     snapshots = list()
     tests = list()
