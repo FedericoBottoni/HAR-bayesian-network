@@ -46,9 +46,10 @@ def parseVal(val):
     return res
 
 def generateSkeleton(data):
+    config = Config()
     dfrm = getDataFrames(data)
     print('LOG: Generate Skeleton')
-    model = BayesianNetwork.from_samples(dfrm, algorithm='greedy', state_names=["x1", "y1", "z1","x2", "y2", "z2","x3", "y3", "z3","x4", "y4", "z4","class"])
+    model = BayesianNetwork.from_samples(dfrm, algorithm='greedy', state_names=config.variables())
     with open('generatedSkeleton/skeletonGraph'+str(config.nOfBuckets())+'buckets.txt', "w+") as f:
         f.write(model.to_json())
 
@@ -56,7 +57,7 @@ def generateSkeleton(data):
 def inference(data, infs):
     config = Config()
     dfrm = getDataFrames(data)
-    model = BayesianNetwork.from_samples(dfrm, reduce_dataset=True, algorithm='greedy', state_names=["x1", "y1", "z1","x2", "y2", "z2","x3", "y3", "z3","x4", "y4", "z4","class"])
+    model = BayesianNetwork.from_samples(dfrm, reduce_dataset=True, algorithm='greedy', state_names=config.variables())
     model.bake()
     testsArray = np.array(Enumerable(infs).select(lambda x: [x.x1, x.y1, x.z1, x.x2, x.y2, x.z2, x.x3, x.y3, x.z3, x.x4, x.y4, x.z4, None]).to_list())
     print('LOG: Predicting')
@@ -70,7 +71,7 @@ def inference(data, infs):
 
 def testModel(data, tests):
     dfrm = getDataFrames(data)
-    model = BayesianNetwork.from_samples(dfrm, reduce_dataset=True, algorithm='greedy', state_names=["x1", "y1", "z1","x2", "y2", "z2","x3", "y3", "z3","x4", "y4", "z4","class"])
+    model = BayesianNetwork.from_samples(dfrm, reduce_dataset=True, algorithm='greedy', state_names=config.variables())
     model.bake()
     testsArray = np.array(Enumerable(tests).select(lambda x: [x.x1, x.y1, x.z1, x.x2, x.y2, x.z2, x.x3, x.y3, x.z3, x.x4, x.y4, x.z4, None]).to_list())
     tags = np.array(Enumerable(tests).select(lambda x: x.harClass).to_list())
