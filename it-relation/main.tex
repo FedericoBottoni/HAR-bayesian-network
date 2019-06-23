@@ -105,8 +105,8 @@ La scelta riguardo all'attributo \emph{how\_tall\_in\_meters} non è stata parti
 	\caption{Dataset dopo lo shuffle}
 	\label{fig:dataset}
 \end{figure}
-Il dataset si presenta come in figura \ref{fig:dataset} dopo una prima fase di pulizia, in cui sono stati individuati alcuni caratteri non necessari tra i campi e timestamp inaspettati tra le entry della tabella, ed una seconda di shuffle, nella quale i record sono stati randomizzati. \newline
-E' stata effettuata inoltre una fase di analisi statistico-descrittiva considerando le features che assumono valori in range indefiniti per cercare di individuare qualche distribuzione particolare o comportamento anomalo.
+Il dataset si presenta come in figura \ref{fig:dataset} dopo una prima fase di pulizia, in cui sono stati individuati e puliti alcuni caratteri non necessari tra i campi e timestamp inaspettati tra le entry della tabella, ed una seconda di shuffle, nella quale i record sono stati randomizzati. \newline
+E' stata effettuata inoltre una fase di analisi statistico-descrittiva considerando le features che assumono valori in range indefiniti per cercare di individuare qualche distribuzione particolare o comportamento anomalo. Osservando le misurazioni di media e deviazione standard tra le variabili, si è notato che per alcune di esse i valori assunti di massimo e di minimo risultavano particolarmente distanti dal valor medio. Si è deciso pertanto di individuare e contare i record contenenti tali valori. Rappresentando una minoranza non significativa per la successiva fase di modellazione della rete, si è deciso pertanto di rimuoverli.
 
 
 \begin{table}[h]
@@ -139,17 +139,17 @@ Dalla tabella \ref{tab:analytics} si può notare che i range di variabilità deg
 	
 	\begin{subfigure}{0.5\textwidth}
 		\includegraphics[width=0.9\linewidth, height=5cm]{images/x1notnormalize.PNG} 
-		\caption{Distribuzione dei valori di x1 non normalizzati.}
+		\caption{x1 non normalizzata.}
 		\label{fig:x1nonNormalize}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\includegraphics[width=0.9\linewidth, height=5cm]{images/x1normalize.PNG}
-		\caption{Distribuzione dei valori di x1 normalizzati.}
+		\caption{x1 normalizzata.}
 		\label{fig:subim2}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\includegraphics[width=0.9\linewidth, height=5cm]{images/x1discretize.PNG}
-		\caption{Distribuzione dei valori di x1 normalizzati e discretizzati.}
+		\caption{x1 normalizzata e discretizzata.}
 		\label{fig:subim2}
 	\end{subfigure}
 	\caption{Normalizzazione e discretizzazione della feature x1.}
@@ -163,7 +163,7 @@ Di seguito, nelle figure \ref{fig:x1} e \ref{fig:z4}, sono presentati alcuni gra
 \begin{figure}[H]
 	\includegraphics[width=1\textwidth]{images/datasetNormalizzato.PNG}
 	\caption{Il dataset normalizzato.}
-	\label{fig:normalized}
+	\label{normalized}
 \end{figure}
 
 
@@ -171,21 +171,21 @@ Di seguito, nelle figure \ref{fig:x1} e \ref{fig:z4}, sono presentati alcuni gra
 	
 	\begin{subfigure}{0.5\textwidth}
 		\includegraphics[width=0.9\linewidth, height=5cm]{images/z4notnormalize.PNG} 
-		\caption{Distribuzione dei valori di z4 non normalizzati.}
-		\label{fig:x1nonNormalize}
+		\caption{z4 non normalizzata.}
+		\label{x1nonNormalize}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\includegraphics[width=0.9\linewidth, height=5cm]{images/z4normalize.PNG}
-		\caption{Distribuzione dei valori di z4 normalizzati.}
-		\label{fig:subim2}
+		\caption{z4 normalizzata.}
+		\label{subim2}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\includegraphics[width=0.9\linewidth, height=5cm]{images/z4discretize.PNG}
-		\caption{Distribuzione dei valori di z4 normalizzati e discretizzati.}
-		\label{fig:subim2}
+		\caption{z4 normalizzata e discretizzata.}
+		\label{subim2}
 	\end{subfigure}
 	\caption{Normalizzazione e discretizzazione della feature x1.}
-	\label{fig:z4}
+	\label{z4}
 \end{figure}
 
 \subsection{Discretizzazione}
