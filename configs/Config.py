@@ -14,4 +14,9 @@ class Config():
         vrbls = self.evidences()
         vrbls.extend(['class'])
         return vrbls
+
+    def inInference(self):
+        return 'inference/in.txt'
     
+    def outInference(self):
+        return 'inference/out.txt'

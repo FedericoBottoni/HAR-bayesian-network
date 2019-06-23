@@ -11,4 +11,4 @@ from dsShuffle import makeInference
 if len(sys.argv) > 1:
     makeInference(sys.argv[1])
 else:
-    raise Exception('No argument passed')
+    makeInference(None)

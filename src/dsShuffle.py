@@ -1,47 +1,23 @@
 import pandas as pd
-import numpy as np
 import csv
+import json
 from py_linq import Enumerable
-from process import normalizeDataset, encodeClass, featuresMean, featuresStd
-import pgmNetwork
+from process import preProcess
 import pomegranateNetwork
+from random import shuffle
 from Snapshot import Snapshot
 from Config import Config
 
 def dsShuffle(mod):
     config = Config()
-
     print('LOG: Preprocessing data')
     data = getData()
-    with open('data/FixedDataset.csv') as csv_file:
-        csv_reader = csv.DictReader(csv_file, delimiter=';')
-        data_mean = featuresMean(csv_reader)
-    with open('datasetMeasures/FeaturesMean.txt', 'w+') as file:
-        file.write(str(data_mean))
-    with open('data/FixedDataset.csv') as csv_file:
-        csv_reader = csv.DictReader(csv_file, delimiter=';')
-        data_std = featuresStd(csv_reader)
-    with open('datasetMeasures/FeaturesStd.txt', 'w+') as file:
-        file.write(str(data_std))
-    wb=open('data/Shuffled.csv', mode='wb')
-    np.savetxt(wb, data, delimiter=";", newline="\r\n", fmt='%f')
-    wb.close()
-    
-    snapshots = list()
-    tests = list()
-    line = 0
-    for row in data:
-        if line < len(data) * config.percGetData():
-            snapshots.append(Snapshot(row))
-        else:
-            tests.append(Snapshot(row))
-        line += 1
-
+    preSnaps = preProcess(data)   
+    shuffle(data)
+    snapshots = preSnaps[:int(len(data) * config.percGetData())]
+    tests = preSnaps[int(len(data) * config.percGetData()):]
     if mod == 'skeleton':
         pomegranateNetwork.generateSkeleton(snapshots)
-    elif mod == 'cpds':
-        #pomegranateNetwork.generateCpds(snapshots)
-        pass
     elif mod == 'test':
         pomegranateNetwork.testModel(snapshots, tests)
 
@@ -49,18 +25,32 @@ def getData():
     data=list()
     with open('data/FixedDataset.csv') as csv_file:
         csv_reader = csv.DictReader(csv_file, delimiter=';')
-        data = normalizeDataset(csv_reader)
+        for sample in csv_reader:
+            data.append(Snapshot([int(sample['x1']), int(sample['y1']), int(sample['z1']), int(sample['x2']), int(sample['y2']), int(sample['z2']), int(sample['x3']), int(sample['y3']), int(sample['z3']), int(sample['x4']), int(sample['y4']), int(sample['z4']), sample['class']]))    
     return data
 
 def makeInference(query):
     config = Config()
+    print('LOG: Preprocessing data')
+    snapshots = list()
+    if query != None:
+        snap = [parseInference(query)]
+    else:
+        print('LOG: Reading queries from "' + config.inInference() + '"')
+        with open(config.inInference()) as json_file:  
+            data = json.load(json_file)
+        snap = Enumerable(data).select(parseInference).to_list()
+    snapshots.extend(snap)
+    snapshots.extend(getData())
+    postSnapshots = preProcess(snapshots)
+    pomegranateNetwork.inference(postSnapshots[len(snap):], postSnapshots[:len(snap)])
+
+def parseInference(query):
+    config = Config()
     attCouples = Enumerable(query.split(';')).select(lambda x: x.split('=')).to_list()
     row = Enumerable(config.evidences()).select(lambda x: getVals(x, attCouples)).to_list()
     row.append(None)
-    snap = Snapshot(row)
-    print(snap.toString())
-    pomegranateNetwork.testModel(snap, getData())
-
+    return Snapshot(row)
     
 def getVals(x, attCouples): 
         values = Enumerable(attCouples).where(lambda y: x == y[0]).to_list()
