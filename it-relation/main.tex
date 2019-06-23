@@ -188,7 +188,7 @@ Di seguito, nelle figure \ref{x1} e \ref{z4}, sono presentati alcuni grafici che
 \end{figure}
 
 \subsection{Discretizzazione}
-I valori delle features nel dataset originale sono continui. Per lavorare con le reti Bayesiane è stato necessario ricorrere alla discretizzazione dei dati.\par
+I valori delle features nel dataset originale sono continui. Per lavorare con le reti Bayesiane, fornite dalle librerie \cite{scikit-learn} e \cite{pomegranate} (che non implementano la gestione di variabili continue), è stato necessario ricorrere alla discretizzazione dei dati.\par
 Inizialmente i dati sono stati suddivisi in partizioni a range identici senza tenere conto di come questi fossero distribuiti. Successivamente abbiamo realizzato come questa procedura fosse imprecisa dopo aver osservato il modo in cui le distribuzioni di probabilità si sbilanciavano prevalentemente verso una sola classe della variabile. \newline
 La discretizzazione definitiva è stata applicata sul dataset normalizzato. Per discretizzare i dati sono stati scelti 5 intervalli o bins. La funzione scelta (KBinsDiscretizer della libreria sklearn \cite{scikit-learn}) adatta automaticamente il numero dei bins in modo che la distribuzione dei dati in essi sia omogenea. Uno sapshot dei dati discretizzati è raffigurato nell'immagine \ref{fig:discretized}
 
@@ -245,8 +245,10 @@ Un fatto che ci ha particolarmente colpito del modello generato da Pomegranate �
 Date le notevoli performance del modello, è stato sviluppato un software che permette di istanziare il modello e lanciare una o più inferenze, eseguibile tramite '\emph{python inference.py "x1=-5;y1=30;z1=-20;x2=..."}' e viene restituito in output la predizione. Nel caso il parametro stringa venga omesso, il software elabora un array di stringhe in "inference/in.txt", le interpreta come query alla variabile \emph{class} del modello e stampa in "inference/out.txt" i risultati. 
 \clearpage
 \section{Conclusioni}
+
 L'obiettivo di questo lavoro è inferire l'azione compiuta da un soggetto tramite i dati rilevati da un sistema di 4 accelerometri. La previsione è stata ottenuta mediante una rete Bayesiana che modella le dipendenze tra i sensori, visti come variabili casuali.\par L'obiettivo è stato raggiunto tramite l'approccio \textit{learning structure by data,} dopo aver provato inizialmente a individuare la struttura tramite uno studio di correlazione manuale tra i dati. Il modello generato riesce a inferire l'azione compiuta dal soggetto con una precisione molto alta, di circa 97\%. Inoltre, i sample del dataset sono ben distribuiti tra le varie attività, quindi quando il modello viene generato, la fase di shuffle e di campionamento dei sample non influiscono sulla precisione nell'inferenza. Una difficoltà importante riportata nella progettazione è la mancata visualizzazione della struttura della rete. Infatti i risultati riportati sono stati ottenuti con la libreria \cite{pomegranate} che si è scoperto essere sprovvista delle API per la visualizzazione dello scheletro e in generale poco documentata e supportata. L'unica funzione disponibile è l'esportazione tramite JSON che pero' risulta in un file difficilmente interpretabile.\newline
 Un altro fattore inaspettato che ci ha colpito negativamente sono i tempi di esecuzione delle due librerie utilizzate che, nonostante Pomegranate sia notevolmente più ottimizzato di Pgmpy, sono decisamente alti.
+
 \newpage
 \bibliographystyle{plain}
 \bibliography{biblist}
