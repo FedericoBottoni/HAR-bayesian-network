@@ -75,7 +75,7 @@
 
 
 \section{Introduzione}
-Il progetto ha l'obiettivo di creare un modello di Rete Bayesiana capace di predirre il tipo di azione che sta effettuando un ipotetico individuo che indossa il "HAR wearable devices setup", una particolare sistema indossabile composto da 4 accelerometri che permette di analizzare i vettori accelerazione dei sensori in questione. Viene fornito dal progetto di riferimento\cite{HAR} un dataset contenente dati sufficienti per effettuare training e testing del modello
+Il progetto ha l'obiettivo di creare un modello di Rete Bayesiana capace di predire il tipo di azione che sta effettuando un ipotetico individuo che indossa il "HAR wearable devices setup", una particolare sistema indossabile composto da 4 accelerometri che permette di analizzare i vettori accelerazione dei sensori in questione. Viene fornito dal progetto di riferimento\cite{HAR} un dataset contenente dati sufficienti per effettuare training e testing del modello
 
 \subsection{Dominio di riferimento}
 La semantica dei dati utilizzati è definita nel paper\cite{Paper} del progetto di provenienza. La singola entry del dataset rappresenta uno snapshot acquisito dai sensori e consiste in:
@@ -135,8 +135,7 @@ E' stata effettuata inoltre una fase di analisi statistico-descrittiva considera
 Dalla tabella \ref{tab:analytics} si può notare che i range di variabilità degli attributi non seguono comportamenti particolari, tanto meno le distribuzioni che in alcuni casi sono caratterizzati da deviazione standard particolarmente bassa (come il caso di \emph{x1}) mentre in altri casi molto alta (come \emph{y2}).
 
 
-\begin{figure}[h]
-	
+\begin{figure}[h]	
 	\begin{subfigure}{0.5\textwidth}
 		\includegraphics[width=0.9\linewidth, height=5cm]{images/x1notnormalize.PNG} 
 		\caption{x1 non normalizzata.}
@@ -153,12 +152,12 @@ Dalla tabella \ref{tab:analytics} si può notare che i range di variabilità deg
 		\label{fig:subim2}
 	\end{subfigure}
 	\caption{Normalizzazione e discretizzazione della feature x1.}
-	\label{fig:x1}
+	\label{x1}
 \end{figure}
 
 \subsection{Normalizzazione}
 Nella fase embrionale della progettazione la normalizzazione era stata ignorata. Infatti la predizione lavorava su features che avevano range piuttosto incosistenti al variare del sensore e della componente del vettore accelerazione considerata. Questo si può notare dalle colonne \textit{Min} e \textit{Max} in tabella \ref{tab:analytics}, che si riferisce ai dati grezzi parzialmente ripuliti. Quindi si è pensato di effettuare una normalizzazione per ogni feature, in modo da compattare i valori tra -1 e 1 andando anche a eliminare gli outliers. \par
-Di seguito, nelle figure \ref{fig:x1} e \ref{fig:z4}, sono presentati alcuni grafici che illustrano la distribuzione dei valori di alcune features prima e dopo la normalizzazione. A seguito dell'operazione di normalizzazione il dataset appare come riportato in figura \ref{fig:normalized}.
+Di seguito, nelle figure \ref{x1} e \ref{z4}, sono presentati alcuni grafici che illustrano la distribuzione dei valori di alcune features prima e dopo la normalizzazione. A seguito dell'operazione di normalizzazione il dataset appare come riportato in figura \ref{fig:normalized}.
 
 \begin{figure}[H]
 	\includegraphics[width=1\textwidth]{images/datasetNormalizzato.PNG}
@@ -227,8 +226,8 @@ Alla luce dei test effettuati abbiamo deciso di utilizzare un'altra libreria: Po
 
 \subsubsection{Modello generato}
 \clearpage
-\section{Risultati e conclusioni}
-
+\section{Conclusioni}
+L'obiettivo di questo lavoro è inferire l'azione compiuta da un soggetto tramite i dati rilevati da un sistema di 4 accellerometri. La previsione è stata ottenuta mediante una rete Bayesiana che modella le dipendenze tra i sensori, visti come variabili casuali.\par L'obiettivo è stato raggiunto tramite l'approccio \textit{learning structure by data,} dopo aver provato inizialmente a individuare la struttura tramite uno studio di correlazione manuale tra i dati. Il modello generato riesce a inferire l'azione compiuta dal soggetto con una precisione molto alta, di circa 97\%. Inoltre, i sample del dataset sono ben distribuiti tra le varie attività, quindi quando il modello viene generato, la fase di shuffle e di campionamento dei sample non influiscono sulla precisione nell'inferenza. Una difficoltà importante riportata nella progettazione è la mancata visualizzazione della struttura della rete. Infatti i risultati riportati sono stati ottenuti con la libreria \cite{pomegranate} che si è scoperto essere sprovvista delle API per la visualizzazione dello scheletro e in generale poco documentata e supportata. L'unica funzione disponibile è l'esportazione tramite JSON che pero' risulta in un file difficilmente interpretabile.
 \newpage
 \bibliographystyle{plain}
 \bibliography{biblist}
