@@ -11,6 +11,7 @@
 \usepackage{vmargin}
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage{subcaption}
 \setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
 
 \title{HAR Bayesian Network}								% Title
@@ -133,11 +134,70 @@ E' stata effettuata inoltre una fase di analisi statistico-descrittiva considera
 
 Dalla tabella \ref{tab:analytics} si può notare che i range di variabilità degli attributi non seguono comportamenti particolari, tanto meno le distribuzioni che in alcuni casi sono caratterizzati da deviazione standard particolarmente bassa (come il caso di \emph{x1}) mentre in altri casi molto alta (come \emph{y2}).
 
+
+\begin{figure}[h]
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=0.9\linewidth, height=5cm]{images/x1notnormalize.PNG} 
+		\caption{Distribuzione dei valori di x1 non normalizzati.}
+		\label{fig:x1nonNormalize}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=0.9\linewidth, height=5cm]{images/x1normalize.PNG}
+		\caption{Distribuzione dei valori di x1 normalizzati.}
+		\label{fig:subim2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=0.9\linewidth, height=5cm]{images/x1discretize.PNG}
+		\caption{Distribuzione dei valori di x1 normalizzati e discretizzati.}
+		\label{fig:subim2}
+	\end{subfigure}
+	\caption{Normalizzazione e discretizzazione della feature x1.}
+	\label{fig:x1}
+\end{figure}
+
 \subsection{Normalizzazione}
+Nella fase embrionale della progettazione la normalizzazione era stata ignorata. Infatti la predizione lavorava su features che avevano range piuttosto incosistenti al variare del sensore e della componente del vettore accelerazione considerata. Questo si può notare dalle colonne \textit{Min} e \textit{Max} in tabella \ref{tab:analytics}, che si riferisce ai dati grezzi parzialmente ripuliti. Quindi si è pensato di effettuare una normalizzazione per ogni feature, in modo da compattare i valori tra -1 e 1 andando anche a eliminare gli outliers. \par
+Di seguito, nelle figure \ref{fig:x1} e \ref{fig:z4}, sono presentati alcuni grafici che illustrano la distribuzione dei valori di alcune features prima e dopo la normalizzazione. A seguito dell'operazione di normalizzazione il dataset appare come riportato in figura \ref{fig:normalized}.
+
+\begin{figure}[H]
+	\includegraphics[width=1\textwidth]{images/datasetNormalizzato.PNG}
+	\caption{Il dataset normalizzato.}
+	\label{fig:normalized}
+\end{figure}
+
+
+\begin{figure}[h]
+	
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=0.9\linewidth, height=5cm]{images/z4notnormalize.PNG} 
+		\caption{Distribuzione dei valori di z4 non normalizzati.}
+		\label{fig:x1nonNormalize}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=0.9\linewidth, height=5cm]{images/z4normalize.PNG}
+		\caption{Distribuzione dei valori di z4 normalizzati.}
+		\label{fig:subim2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\includegraphics[width=0.9\linewidth, height=5cm]{images/z4discretize.PNG}
+		\caption{Distribuzione dei valori di z4 normalizzati e discretizzati.}
+		\label{fig:subim2}
+	\end{subfigure}
+	\caption{Normalizzazione e discretizzazione della feature x1.}
+	\label{fig:z4}
+\end{figure}
 
 \subsection{Discretizzazione}
+I valori delle features nel dataset originale sono continui. Per lavorare con le reti Bayesiane è stato necessario ricorrere alla discretizzazione dei dati.\par
 Inizialmente i dati sono stati suddivisi in partizioni a range identici senza tenere conto di come questi fossero distribuiti. Successivamente abbiamo realizzato come questa procedura fosse imprecisa dopo aver osservato il modo in cui le distribuzioni di probabilità si sbilanciavano prevalentemente verso una sola classe della variabile. \newline
-Il metodo applicato successivamente [TODO]
+La discretizzazione definitiva è stata applicata sul dataset normalizzato. Per discretizzare i dati sono stati scelti 5 intervalli o bins. La funzione scelta (KBinsDiscretizer della libreria sklearn \cite{scikit-learn}) adatta automaticamente il numero dei bins in modo che la distribuzione dei dati in essi sia omogenea. Uno sapshot dei dati discretizzati è raffigurato nell'immagine \ref{fig:discretized}
+
+\begin{figure}[h]
+	\includegraphics[scale = 0.5]{images/datasetDiscretizzato.PNG}
+	\caption{Il dataset discretizzato.}
+	\label{fig:discretized}
+\end{figure}
 
 
 \section{I modelli di rete}
