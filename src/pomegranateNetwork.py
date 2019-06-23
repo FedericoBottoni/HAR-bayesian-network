@@ -50,6 +50,7 @@ def generateSkeleton(data):
     dfrm = getDataFrames(data)
     print('LOG: Generate Skeleton')
     model = BayesianNetwork.from_samples(dfrm, algorithm='greedy', state_names=config.variables())
+    model.bake()
     with open('generatedSkeleton/skeletonGraph'+str(config.nOfBuckets())+'buckets.txt', "w+") as f:
         f.write(model.to_json())
 
@@ -70,6 +71,7 @@ def inference(data, infs):
         print('Predicted value is "' + parseVal(prediction[0][12]) + '"')
 
 def testModel(data, tests):
+    config = Config()
     dfrm = getDataFrames(data)
     model = BayesianNetwork.from_samples(dfrm, reduce_dataset=True, algorithm='greedy', state_names=config.variables())
     model.bake()
