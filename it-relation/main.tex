@@ -99,13 +99,7 @@ La scelta riguardo all'attributo \emph{how\_tall\_in\_meters} non è stata parti
 
 \section{Scelte di design}
 \subsection{Analisi statistica e qualitativa}
-\begin{figure}[H]
-	\centering
-	{\includegraphics[width=1\textwidth]{images/dataset.JPG}}
-	\caption{Dataset dopo lo shuffle}
-	\label{fig:dataset}
-\end{figure}
-Il dataset si presenta come in figura \ref{fig:dataset} dopo una prima fase di pulizia, in cui sono stati individuati e puliti alcuni caratteri non necessari tra i campi e timestamp inaspettati tra le entry della tabella, ed una seconda di shuffle, nella quale i record sono stati randomizzati. \newline
+Il dataset ha subito una prima fase di pulizia, in cui sono stati individuati e eliminati alcuni caratteri non necessari tra i campi e timestamp inaspettati tra le entry della tabella, ed una seconda di shuffle, nella quale i record sono stati randomizzati. \newline
 E' stata effettuata inoltre una fase di analisi statistico-descrittiva considerando le features che assumono valori in range indefiniti per cercare di individuare qualche distribuzione particolare o comportamento anomalo. Osservando le misurazioni di media e deviazione standard tra le variabili, si è notato che per alcune di esse i valori assunti di massimo e di minimo risultavano particolarmente distanti dal valor medio. Si è deciso pertanto di individuare e contare i record contenenti tali valori. Rappresentando una minoranza non significativa per la successiva fase di modellazione della rete, si è deciso pertanto di rimuoverli.
 
 
@@ -246,7 +240,8 @@ Date le notevoli performance del modello, è stato sviluppato un software che pe
 \clearpage
 \section{Conclusioni}
 
-L'obiettivo di questo lavoro è inferire l'azione compiuta da un soggetto tramite i dati rilevati da un sistema di 4 accelerometri. La previsione è stata ottenuta mediante una rete Bayesiana che modella le dipendenze tra i sensori, visti come variabili casuali.\par L'obiettivo è stato raggiunto tramite l'approccio \textit{learning structure by data,} dopo aver provato inizialmente a individuare la struttura tramite uno studio di correlazione manuale tra i dati. Il modello generato riesce a inferire l'azione compiuta dal soggetto con una precisione molto alta, di circa 97\%. Inoltre, i sample del dataset sono ben distribuiti tra le varie attività, quindi quando il modello viene generato, la fase di shuffle e di campionamento dei sample non influiscono sulla precisione nell'inferenza. Una difficoltà importante riportata nella progettazione è la mancata visualizzazione della struttura della rete. Infatti i risultati riportati sono stati ottenuti con la libreria \cite{pomegranate} che si è scoperto essere sprovvista delle API per la visualizzazione dello scheletro e in generale poco documentata e supportata. L'unica funzione disponibile è l'esportazione tramite JSON che pero' risulta in un file difficilmente interpretabile.\newline
+L'obiettivo di questo lavoro è inferire l'azione compiuta da un soggetto tramite i dati rilevati da un sistema di 4 accelerometri. La previsione è stata ottenuta mediante una rete Bayesiana che modella le dipendenze tra i sensori, visti come variabili casuali.\par
+L'obiettivo è stato raggiunto tramite l'approccio \textit{learning structure by data}, inizialmente tentando di individuare la struttura tramite uno studio di correlazione manuale tra i dati con esito negativo, successivamente generando automaticamente il modello grazie alle API delle librerie. Il modello finale riesce a inferire l'azione compiuta dal soggetto con una precisione molto alta, di circa 97\%. Inoltre, i sample del dataset sono ben distribuiti tra le varie attività, quindi quando il modello viene generato, la fase di shuffle e di campionamento dei sample non influiscono sulla precisione nell'inferenza. Una difficoltà importante riportata nella progettazione è la mancata visualizzazione della struttura della rete. Infatti i risultati riportati sono stati ottenuti con la libreria \cite{pomegranate} che si è scoperto essere sprovvista delle API per la visualizzazione dello scheletro e in generale poco documentata e supportata. L'unica funzione disponibile è l'esportazione tramite JSON che pero' risulta in un file difficilmente interpretabile.\newline
 Un altro fattore inaspettato che ci ha colpito negativamente sono i tempi di esecuzione delle due librerie utilizzate che, nonostante Pomegranate sia notevolmente più ottimizzato di Pgmpy, sono decisamente alti.
 
 \newpage
