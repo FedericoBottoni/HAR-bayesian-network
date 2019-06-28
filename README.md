@@ -4,38 +4,39 @@
 
 ## Dependencies
 
-You can install [pgmpy](https://pypi.org/project/pgmpy/), [tqdm](https://pypi.org/project/tqdm/) and [sklearn](https://pypi.org/project/sklearn/) using pip:
+You can install [pomegranate_v0.11.0](https://pypi.org/project/pomegranate/) and [scikit-learn_v0.21.2](pip install scikit-learn) using pip:
 
 ```bash
-pip install pgmpy
-pip install tqdm
+pip install pomegranate
 pip install sklearn
 ```
 
 ## Execution allowed
 
-Generate the skeleton of the Bn
+Generate dynamically the model of the Bayesian Network (skeleton and CPDs)
 
 ```bash
 python skeleton.py
 ```
 
-Calculate the CPDs from the given skeleton
-
-```bash
-python cpds.py
-```
-
-Stimating the performance of the given model (skeleton + cpd)
+Stimating the accuracy of the given model (based on 10% of the dataset)
 
 ```bash
 python test.py
 ```
 
-Make custom inference from the given model (skeleton + cpd)
+Make a sequence of inferences writing them in the input path as array of strings. Results will be printed in the output path (configurable in configs/Config.py). Following default paths:  
+input: inference/in.txt  
+output: inference/out.txt
 
 ```bash
 python inference.py
+```
+
+Make a single custom inference from the given model and return the class-action, for example
+
+```bash
+python inference.py "x1=-1;y1=100;z1=-97;x2=4;y2=85;z2=-123;x3=24;y3=98;z3=-94;x4=-210;y4=-87;z4=-162"
 ```
 
 ## Authors
