@@ -4,11 +4,11 @@
 
 ## Dependencies
 
-You can install [pomegranate_v0.11.0](https://pypi.org/project/pomegranate/) and [scikit-learn_v0.21.2](pip install scikit-learn) using pip:
+You can install [pomegranate_v0.11.0](https://pypi.org/project/pomegranate/) and [scikit-learn_v0.21.2](https://pypi.org/project/scikit-learn/) using pip:
 
 ```bash
 pip install pomegranate
-pip install sklearn
+pip install scikit-learn
 ```
 
 ## Execution allowed
@@ -41,15 +41,15 @@ python inference.py "x1=-1;y1=100;z1=-97;x2=4;y2=85;z2=-123;x3=24;y3=98;z3=-94;x
 
 ## Authors
 
-**Mattia Artifoni 807466**
+**Mattia Artifoni**
 
 - [github/m-artifoni](https://github.com/m-artifoni)
 
-**Luca Brena 808216**
+**Luca Brena**
 
 - [github/lbrena2](https://github.com/lbrena2)
 
-**Federico Bottoni 806944**
+**Federico Bottoni**
 
 - [github/FedericoBottoni](https://github.com/federicobottoni)
 
