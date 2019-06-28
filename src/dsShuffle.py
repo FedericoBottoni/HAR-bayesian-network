@@ -13,7 +13,7 @@ def dsShuffle(mod):
     print('LOG: Preprocessing data')
     data = getData()
     preSnaps = preProcess(data)   
-    shuffle(data)
+    shuffle(preSnaps)
     snapshots = preSnaps[:int(len(data) * config.percGetData())]
     tests = preSnaps[int(len(data) * config.percGetData()):]
     if mod == 'skeleton':
@@ -43,7 +43,10 @@ def makeInference(query):
     snapshots.extend(snap)
     snapshots.extend(getData())
     postSnapshots = preProcess(snapshots)
-    pomegranateNetwork.inference(postSnapshots[len(snap):], postSnapshots[:len(snap)])
+    training = postSnapshots[len(snap):]
+    infs = postSnapshots[:len(snap)]
+    shuffle(training)
+    pomegranateNetwork.inference(training, infs)
 
 def parseInference(query):
     config = Config()

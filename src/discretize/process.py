@@ -25,8 +25,6 @@ def preProcess(snaps):
         data[i, 11] = snap.z4
         data[i, 12] = encodeClass(snap.harClass)
         i = i + 1
-    data=data.tolist()
-    data=np.array(data)
     data_tmp = normalize(data[:, np.arange(12)], norm = 'l2', axis = 0, return_norm = False)
     est = KBinsDiscretizer(n_bins = config.nOfBuckets(), encode='ordinal').fit(data_tmp)
     data_discretize = est.transform(data_tmp)
