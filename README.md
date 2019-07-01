@@ -44,15 +44,15 @@ python test.py
 
 ## Authors
 
-**Mattia Artifoni 807466**
+**Mattia Artifoni**
 
 - [github/m-artifoni](https://github.com/m-artifoni)
 
-**Luca Brena 808216**
+**Luca Brena**
 
 - [github/lbrena2](https://github.com/lbrena2)
 
-**Federico Bottoni 806944**
+**Federico Bottoni**
 
 - [github/FedericoBottoni](https://github.com/federicobottoni)
 
