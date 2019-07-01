@@ -4,26 +4,13 @@
 
 ## Dependencies
 
-You can install [pomegranate_v0.11.0](https://pypi.org/project/pomegranate/) and [scikit-learn_v0.21.2](pip install scikit-learn) using pip:
+You can install the dependencies using pip:
 
 ```bash
-pip install pomegranate
-pip install sklearn
+pip install -r dependencies.txt
 ```
 
-## Execution allowed
-
-Generate dynamically the model of the Bayesian Network (skeleton and CPDs)
-
-```bash
-python skeleton.py
-```
-
-Stimating the accuracy of the given model (based on 10% of the dataset)
-
-```bash
-python test.py
-```
+## Inference
 
 Make a sequence of inferences writing them in the input path as array of strings. Results will be printed in the output path (configurable in configs/Config.py). Following default paths:  
 input: inference/in.txt  
@@ -37,6 +24,22 @@ Make a single custom inference from the given model and return the class-action,
 
 ```bash
 python inference.py "x1=-1;y1=100;z1=-97;x2=4;y2=85;z2=-123;x3=24;y3=98;z3=-94;x4=-210;y4=-87;z4=-162"
+```
+
+## Generate the model
+
+Generate dynamically the model of the Bayesian Network (skeleton and CPDs)
+
+```bash
+python skeleton.py
+```
+
+## Get accuracy
+
+Stimating the accuracy of the given model (based on 10% of the dataset)
+
+```bash
+python test.py
 ```
 
 ## Authors
