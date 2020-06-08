@@ -43,18 +43,15 @@ python test.py
 ```
 
 ## Authors
+<a href="https://github.com/FedericoBottoni/HAR-bayesian-network/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=FedericoBottoni/HAR-bayesian-network" />
+</a>
 
-**Mattia Artifoni**
+* **Federico Bottoni** - [FedericoBottoni](https://github.com/federicobottoni)
 
-- [github/m-artifoni](https://github.com/m-artifoni)
+* **Mattia Artifoni** - [m-artifoni](https://github.com/m-artifoni)
 
-**Luca Brena**
-
-- [github/lbrena2](https://github.com/lbrena2)
-
-**Federico Bottoni**
-
-- [github/FedericoBottoni](https://github.com/federicobottoni)
+* **Luca Brena** - [lbrena2](https://github.com/lbrena2)
 
 ## License
 
