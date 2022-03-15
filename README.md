@@ -1,6 +1,6 @@
 # HAR-bayesian-network
 
-> The project consists in creating a bayesian network model in order to predict the action of a person, basing on the given training set which consists in 3D acceleration vectors for each sensor analyzed in the the project [Wearable computing: Accelerometers' data classication of body postures and movements](http://groupware.les.inf.puc-rio.br/har)
+> The project consists in creating a bayesian network model in order to predict the action of a person, basing on the given training set which consists in 3D acceleration vectors for each sensor analyzed in the the project [Wearable computing: Accelerometers' data classification of body postures and movements](https://link.springer.com/chapter/10.1007/978-3-642-34459-6_6)
 
 ## Dependencies
 
